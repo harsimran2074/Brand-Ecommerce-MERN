@@ -37,10 +37,10 @@ const Contact = () => {
             </NavLink>
           </nav>
         </div>
-<div>
+<div className="ml-5">
   
-  <h1 className="text-2xl font-bold mb-4">Contact Information</h1>
-<div className="flex flex-col md:flex-row gap-6 mb-6">
+  <h1 className="text-2xl font-bold mb-4 m">Contact Information</h1>
+<div className="flex flex-col md:flex-row gap-4 mb-6">
   <p className="mb-4">
     <strong>Address:</strong> 123 Main Street, City, State, Country
   </p>
