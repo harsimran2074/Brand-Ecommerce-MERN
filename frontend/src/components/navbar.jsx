@@ -26,8 +26,8 @@ const Navbar = () => {
 
   return (
     <nav className="relative bg-white text-black">
-      <div className="flex justify-between items-center h-18 mx-4 sm:mx-8 md:mx-20 p-2">
-        <img src={logo} alt="logo" className="w-40 sm:w-50 h-auto" />
+      <div className="flex justify-between items-center h-18 mx-4 sm:mx-3 md:mx-20 p-2">
+        <img src={logo} alt="logo" className="w-40 sm:w-50 h-auto  -ml-6" />
 
         <ul className="hidden md:flex items-center justify-space-between gap-4">
           <NavLink to="/" className={navLinkClass}>
