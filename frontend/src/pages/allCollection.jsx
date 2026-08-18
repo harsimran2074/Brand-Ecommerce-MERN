@@ -24,7 +24,7 @@ const AllCollection = () => {
                </section>
 
                <div className="hidden md:block w-1/3">
-                  <img src={assets.hero_img} alt="Shop hero" className="w-full h-48 lg:h-56 object-cover rounded-md shadow-sm" />
+                  <img src={assets.contact_img} alt="Shop hero" className="w-full h-48 lg:h-56 object-cover rounded-md shadow-sm" />
                </div>
             </div>
 

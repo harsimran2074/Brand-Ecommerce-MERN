@@ -6,10 +6,11 @@ import AllCollection from './pages/allCollection.jsx'
 import About from './pages/about.jsx'
 import Contact from './pages/contact.jsx'
 import Cart from './pages/cart.jsx'
-import Product from './pages/product.jsx'
+import ProductDetail from './pages/productDetail.jsx'
 import Login from './pages/login.jsx'
 import PlaceOrder from './pages/placeOrder.jsx'
 import Orders from './pages/order.jsx'
+import SignUp from './pages/SignUp.jsx'
 
 function App() {
   return (
@@ -21,8 +22,9 @@ function App() {
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/cart' element={<Cart />} />
-        <Route path='/product/:productId' element={<Product />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/product/:productId' element={<ProductDetail />} />
+        <Route path='/Login' element={<Login />} />
+        <Route path='/SignUp' element={<SignUp />} />
         <Route path='/place-order' element={<PlaceOrder />} />
         <Route path='/order' element={<Orders />} />
       </Routes>

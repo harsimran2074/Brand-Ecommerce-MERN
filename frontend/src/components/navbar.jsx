@@ -48,7 +48,7 @@ const Navbar = () => {
           <NavLink to="/search">
             <IoSearch size={26} />
           </NavLink>
-          <NavLink to="/profile">
+          <NavLink to="/Login">
             <FaRegUser size={24} />
           </NavLink>
           <NavLink to="/cart">

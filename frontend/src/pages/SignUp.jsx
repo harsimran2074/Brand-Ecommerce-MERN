@@ -1,28 +1,34 @@
 import React from 'react'
 import Footer from '../components/footer'
 import { NavLink } from 'react-router-dom'
-const Login = () => {
+const SignUp = () => {
   return (
-    <>
-
-    <div className="h-100 flex items-start justify-center pt-14 px-4">
+   <>
+   
+    <div className="h-120 flex items-start justify-center pt-14 px-4">
       <div className="w-full max-w-md">
 
         <h1 className="text-center text-4xl font-serif text-gray-900 mb-8">
-          Login
+          Sign Up
         </h1>
 
         <form className="space-y-4">
 
           <input
+            type="name"
+            placeholder="name"
+            className="w-full h-12 border border-gray-800 px-4 text-base outline-none placeholder:text-gray-400 focus:border-black"
+          />
+
+          <input
             type="email"
-            placeholder="Email"
+            placeholder="email"
             className="w-full h-12 border border-gray-800 px-4 text-base outline-none placeholder:text-gray-400 focus:border-black"
           />
 
           <input
             type="password"
-            placeholder="Password"
+            placeholder="password"
             className="w-full h-12 border border-gray-800 px-4 text-base outline-none placeholder:text-gray-400 focus:border-black"
           />
 
@@ -35,10 +41,10 @@ const Login = () => {
             </NavLink>
 
             <NavLink
-              to="/SignUp"
+              to="/Login"
               className="text-gray-900 hover:underline"
             >
-              Create account
+              Login
             </NavLink>
           </div>
 
@@ -47,7 +53,7 @@ const Login = () => {
               type="submit"
               className="bg-black text-white px-9 py-3 min-w-32 hover:bg-gray-800 transition"
             >
-              Login here
+              Sign Up
             </button>
           </div>
 
@@ -55,8 +61,8 @@ const Login = () => {
       </div>
     </div>
     <Footer/>
-    </>
+   </>
   )
 }
 
-export default Login
+export default SignUp
