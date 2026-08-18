@@ -10,7 +10,7 @@ const AllCollection = () => {
    return (
       <>
          <main className="container mx-auto px-2 py-8">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 ml-5 mb-6">
                <section className="max-w-2xl">
                   <nav className="text-sm text-gray-500 mb-2">
                      <NavLink to="/" className="hover:underline text-lg lg:text-2xl ">Home</NavLink>
