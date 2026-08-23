@@ -15,7 +15,7 @@ const Product = ({ item }) => {
   return (
     <div className="w-full bg-white rounded-lg shadow-sm overflow-hidden">
       <div className="w-full h-56 bg-gray-50 flex items-center justify-center overflow-hidden">
-        <img src={img} alt={data.name} className="w-full h-full object-contain" />
+        <img src={img} alt={data.name} className="w-full h-full  object-contain" />
       </div>
       <div className="p-4">
         <div className="text-sm font-medium text-gray-900 truncate">{data.name}</div>

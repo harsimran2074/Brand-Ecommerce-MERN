@@ -17,7 +17,7 @@ const FollowUs = () => {
 
   <div className="flex justify-center items-center gap-6">
     <a
-      href="https://instagram.com/yourpage"
+      href="https://www.instagram.com/kamboj_biradari/"
       target="_blank"
       rel="noopener noreferrer"
       className="text-gray-700 hover:text-black transition"
