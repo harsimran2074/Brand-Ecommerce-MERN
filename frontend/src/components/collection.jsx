@@ -1,11 +1,11 @@
 import React from 'react'
-
+import { useSelector } from 'react-redux'
 import { products } from '../assets/assets.js'
-import Product from '../components/product.jsx'
+import Product from './product.jsx'
 const Collection = () => {
 
-
-     const data = products
+const data = useSelector((store)=>store.allItemSlice)
+    //  const data = products
 
   return <>
 

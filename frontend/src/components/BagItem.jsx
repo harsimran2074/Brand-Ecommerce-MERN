@@ -1,8 +1,14 @@
 import React from 'react'
-
+import { useDispatch } from 'react-redux'
+import { removeFromCart } from '../redux/slices'
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 const BagItem = ({data}) => {
+  const dispatch = useDispatch();
+
+  const removeItem = (item) => {
+    dispatch(removeFromCart(item))
+  }
 
   return (
    <div className="container">
@@ -50,7 +56,7 @@ const BagItem = ({data}) => {
       </div>
 
       {/* Remove */}
-      <button className="text-sm text-gray-500 underline hover:text-black">
+      <button className="text-sm text-gray-500 underline hover:text-black" onClick={()=> removeItem(data._id)} >
       <RiDeleteBin6Line size={25}/>
       </button>
     </div>
