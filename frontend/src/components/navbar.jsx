@@ -5,6 +5,7 @@ import { GrCart } from "react-icons/gr";
 import { IoSearch } from "react-icons/io5";
 import logo from "../assets/logo.png";
 import menu from "../assets/menu_icon.png";
+import Search from "./search";
 const navLinkClass = ({ isActive }) =>
   `px-4 py-2 rounded-md transition-all duration-150
    hover:bg-gray-100
@@ -27,7 +28,7 @@ const Navbar = () => {
   return (
     <nav className="relative bg-white text-black">
       <div className="flex justify-between items-center h-18 mx-4 sm:mx-3 md:mx-20 p-2">
-        <img src={logo} alt="logo" className="w-27 sm:w-28 h-auto  -ml-6 pl-4 pt-4" />
+        <img src={logo} alt="logo" className="w-27 sm:w-28 h-auto  -ml-8 pl-4 pt-4" />
 
         <ul className="hidden md:flex items-center justify-space-between gap-4">
           <NavLink to="/" className={navLinkClass}>
@@ -45,9 +46,7 @@ const Navbar = () => {
         </ul>
 
         <ul className="flex items-center gap-4 sm:gap-6">
-          <NavLink to="/search">
-            <IoSearch size={26} />
-          </NavLink>
+       
           <NavLink to="/Login">
             <FaRegUser size={24} />
           </NavLink>

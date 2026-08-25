@@ -1,14 +1,15 @@
-import React from "react";
-
-import { useEffect } from "react";
-import { useState } from "react";
-import dropdown from "../assets/dropdown_icon.png";
-
-import { products, assets } from "../assets/assets.js";
-import Product from "../components/product.jsx";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import dropdown from "../assets/dropdown_icon.png";
+import { assets } from "../assets/assets.js";
+
+import Product from "../components/product.jsx";
+import Search from "../components/search.jsx";
 import Footer from "../components/footer.jsx";
-import { useDispatch, useSelector } from "react-redux";
+
+
 const AllCollection = () => {
   const data = useSelector((store) => store.allItemSlice);
 
@@ -17,7 +18,7 @@ const AllCollection = () => {
   const [category, setCategory] = useState([]);
   const [size, setSize] = useState([]);
   const [priceSort, setPriceSort] = useState("relevant");
-
+const [search, setSearch] = useState("");
   
 //checking wheather category exist or not in the array
   const toggleCategory = (e) => {
@@ -75,13 +76,20 @@ const AllCollection = () => {
         break;
     }
 
+//search filer
+
+if(search){
+  console.log(search);
+  productCopy = productCopy.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
+}
+
     setFilterProduct(productCopy);
 
   };
 
   useEffect(() => {
     applyFilter();
-  }, [category, size , priceSort]);
+  }, [category, size , priceSort , search]);
 
 //UI thing
   const handleFilter = () => {
@@ -95,6 +103,7 @@ const AllCollection = () => {
 
   return (
     <>
+    <Search setSearch={setSearch}/>
       <main className="container mx-auto px-2 py-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 ml-5 mb-6">
           <section className="max-w-2xl">

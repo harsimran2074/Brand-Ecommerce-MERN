@@ -11,6 +11,7 @@ import Login from './pages/login.jsx'
 import PlaceOrder from './pages/placeOrder.jsx'
 import Orders from './pages/order.jsx'
 import SignUp from './pages/SignUp.jsx'
+import Search from './components/search.jsx'
 
 function App() {
   return (
