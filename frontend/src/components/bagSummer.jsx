@@ -9,7 +9,7 @@ const BagSummery = () => {
 
   <div className="flex justify-between mb-3 text-gray-600">
     <span>Subtotal</span>
-    <span>{}</span>
+    <span>₹{100}</span>
   </div>
 
   <div className="flex justify-between mb-4 text-gray-600">

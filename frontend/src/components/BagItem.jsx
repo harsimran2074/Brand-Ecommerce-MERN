@@ -1,80 +1,111 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { removeFromCart } from '../redux/slices'
-import { RiDeleteBin6Line } from "react-icons/ri";
-
-const BagItem = ({data}) => {
+import React from "react";
+import { useDispatch } from "react-redux";
+import { removeFromCart } from "../redux/slices";
+import { RiDeleteBin6Line, RiTruckLine } from "react-icons/ri";
+import {updateQuantity} from "../redux/slices"
+const BagItem = ({ data }) => {
   const dispatch = useDispatch();
 
-  const removeItem = (item) => {
-    dispatch(removeFromCart(item))
-  }
+  const removeItem = () => {
+    dispatch(removeFromCart({id:data._id , size:data.size}));
+  };
+
+  const imageSrc = Array.isArray(data?.image) ? data.image[0] : data?.image;
 
   return (
-   <div className="container">
+    <div className="group bg-white border border-gray-200/90 rounded-2xl p-4 sm:p-5 mb-4 shadow-xs hover:shadow-md transition-all duration-200">
+      <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center">
+        {/* Left Section: Image and Product Details */}
+        <div className="flex gap-3.5 sm:gap-5 w-full sm:w-auto items-center sm:items-start flex-1 min-w-0">
+          {/* Product Image Container */}
+          <div className="w-20 h-24 sm:w-28 sm:h-32 bg-gray-50 rounded-xl overflow-hidden shrink-0 border border-gray-100 flex items-center justify-center p-1.5">
+            <img
+              src={imageSrc}
+              alt={data?.name || "Product"}
+              className="w-full h-full object-contain object-center transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
 
-      <div className="flex gap-5 border-t border-gray-400 py-6">
-  {/* Product Image */}
-  <div className="w-28 h-32 bg-gray-100 shrink-0">
-    <img
-      src={data.image}
-      alt={data.name}
-      className="w-full h-full object-cover"
-    />
-  </div>
+          {/* Product Info */}
+          <div className="flex-1 min-w-0 flex flex-col justify-between">
+            <div>
+              <h2 className="text-sm sm:text-base font-semibold text-gray-900 truncate sm:line-clamp-2 leading-snug">
+                {data?.name}
+              </h2>
 
-  {/* Product Info */}
-  <div className="flex flex-1 flex-col justify-between">
-    <div>
-      <h2 className="text-base font-medium text-gray-900">
-        {data.name}
-      </h2>
+              <div className="flex flex-wrap items-center gap-2 mt-1.5 sm:mt-2">
+                {data?.size && (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200/60">
+                    Size: <span className="font-semibold ml-1 text-gray-900">{data.size}</span>
+                  </span>
+                )}
+                {data?.category && (
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium text-gray-500 bg-gray-50">
+                    {data.category}
+                  </span>
+                )}
+              </div>
+            </div>
 
-      <p className="mt-1 text-sm text-gray-500">
-        Size: M
-      </p>
+            {/* Mobile Price Display */}
+            <div className="mt-2.5 sm:hidden flex items-baseline gap-1">
+              <span className="text-base font-bold text-gray-900">${data?.price}</span>
+            </div>
+          </div>
+        </div>
 
-      <p className="mt-1 text-sm text-gray-500">
-        Color: Black
-      </p>
-    </div>
+        {/* Right Section: Quantity Controls, Price, and Remove Button */}
+        <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-6 w-full sm:w-auto border-t sm:border-t-0 pt-3 sm:pt-0 border-gray-100">
+          {/* Quantity Stepper */}
+          <div className="flex items-center rounded-lg border border-gray-200 bg-gray-50/80 p-1 shadow-2xs">
+            <button
+              type="button"
+              className="w-7 h-7 flex items-center justify-center rounded-md bg-white border border-gray-200/80 text-gray-600 hover:text-black hover:bg-gray-100 active:scale-95 transition-all text-xs font-bold cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+              aria-label="Decrease quantity"
+              disabled={(data?.quantity || 1) <= 1}
+              onClick={() => dispatch(updateQuantity({ _id: data._id, size: data.size, change: -1 }))}
+            >
+              −
+            </button>
 
-    <div className="flex items-center justify-between mt-4">
-      {/* Quantity */}
-      <div className="flex items-center border border-gray-300">
-        <button className="px-3 py-1 text-gray-600 hover:bg-gray-100">
-          −
-        </button>
+            <span className="px-3 text-xs sm:text-sm font-semibold text-gray-800 min-w-6 text-center select-none">
+              {data?.quantity || 1}
+            </span>
 
-        <span className="px-4 py-1 text-sm">
-          1
-        </span>
+            <button
+              type="button"
+              className="w-7 h-7 flex items-center justify-center rounded-md bg-white border border-gray-200/80 text-gray-600 hover:text-black hover:bg-gray-100 active:scale-95 transition-all text-xs font-bold cursor-pointer"
+              aria-label="Increase quantity"
+              onClick={()=> dispatch(updateQuantity({_id:data._id , size:data.size , change:+1})) }
 
-        <button className="px-3 py-1 text-gray-600 hover:bg-gray-100">
-          +
-        </button>
+            >
+              +
+            </button>
+          </div>
+
+          {/* Desktop Price & Delivery Estimate */}
+          <div className="hidden sm:flex flex-col items-end min-w-28 text-right">
+            <p className="text-lg font-bold text-gray-900">${data?.price}</p>
+            <div className="flex items-center gap-1 mt-1 text-[11px] text-gray-500 font-medium">
+              <RiTruckLine className="w-3.5 h-3.5 text-gray-400" />
+              <span>Est. 24–27 Aug</span>
+            </div>
+          </div>
+
+          {/* Delete / Remove Button */}
+          <button
+            type="button"
+            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 cursor-pointer"
+            onClick={() => removeItem({ id: data?._id, size: data?.size })}
+            title="Remove item"
+            aria-label="Remove item"
+          >
+            <RiDeleteBin6Line size={20} className="transition-transform active:scale-90" />
+          </button>
+        </div>
       </div>
-
-      {/* Remove */}
-      <button className="text-sm text-gray-500 underline hover:text-black" onClick={()=> removeItem(data._id)} >
-      <RiDeleteBin6Line size={25}/>
-      </button>
     </div>
-  </div>
+  );
+};
 
-  {/* Price */}
-  <div className="text-right">
-    <p className="text-base font-medium">
-      {`${data.price}$`}
-    </p>
-
-    <p className="mt-2 text-xs text-gray-500">
-      Delivery by 24–27 Aug
-    </p>
-  </div>
-</div>
-   </div>
-  )
-}
-
-export default BagItem
+export default BagItem;

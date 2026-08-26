@@ -28,17 +28,12 @@ const Product = ({ item }) => {
       <div className="px-4 pb-4 mt-3">
         <div className="flex flex-col sm:flex-row gap-3 items-center">
           
-
-          <button
-            type="button"
-            className="w-full sm:flex-1 inline-flex items-center justify-center h-10 px-4 bg-white border border-gray-200 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 whitespace-nowrap overflow-hidden truncate"
-            aria-label={`View details for ${data.name}`}
-          >
-            <NavLink to={`/product/${data._id}`}>
-            View details
-            </NavLink>
-           
-          </button>
+<NavLink
+  to={`/product/${data._id}`}
+  className="w-full sm:flex-1 flex items-center justify-center h-10 px-4 bg-white border border-gray-200 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-200 transition-colors"
+>
+  View details
+</NavLink>
         </div>
       </div>
     </div>

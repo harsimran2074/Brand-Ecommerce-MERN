@@ -12,11 +12,15 @@ import PlaceOrder from './pages/placeOrder.jsx'
 import Orders from './pages/order.jsx'
 import SignUp from './pages/SignUp.jsx'
 import Search from './components/search.jsx'
-
+import ScrollToTop from './components/ScrollToTop.jsx'
+ import React from 'react';
+  import { ToastContainer, toast } from 'react-toastify';
 function App() {
   return (
     <>
       <Navbar />
+      <ScrollToTop/>
+        <ToastContainer />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/collection' element={<AllCollection />} />
