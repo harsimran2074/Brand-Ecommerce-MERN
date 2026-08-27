@@ -1,16 +1,26 @@
-import React from 'react'
-import { useEffect } from 'react';
-import { useState } from 'react';
-const BagSummery = ({ items }) => {
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+const BagSummery = ({ items = [] }) => {
+  const navigate = useNavigate();
+  const subtotal = items.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
   
-  const deliveryFee = subtotal===0 ? 0 : 50;
+  const deliveryFee = subtotal === 0 ? 0 : 50;
   const Total = subtotal + deliveryFee;
+
+  const handleCheckout = () => {
+    if (!items || items.length === 0) {
+      toast.warn("Your cart is empty! Add items to continue.");
+      return;
+    }
+    navigate('/place-order');
+  };
+
   return (
     <>
       <div>
-        <div className="w-full md:w-100 border border-gray-200 rounded-lg p-6">
+        <div className="w-full md:w-100 border border-gray-200 rounded-lg p-6 bg-white shadow-xs">
           <h2 className="text-xl font-semibold mb-6">Cart Total</h2>
 
           <div className="flex justify-between mb-3 text-gray-600">
@@ -28,14 +38,16 @@ const BagSummery = ({ items }) => {
             <span>₹{Total}</span>
           </div>
 
-          <button className="w-full mt-6 bg-black text-white py-3 rounded-md hover:bg-gray-800">
+          <button
+            onClick={handleCheckout}
+            className="w-full mt-6 bg-black text-white py-3 rounded-md hover:bg-gray-800 transition cursor-pointer font-medium"
+          >
             Proceed to Checkout
           </button>
         </div>
-
       </div>
     </>
-  )
-}
+  );
+};
 
-export default BagSummery
+export default BagSummery;

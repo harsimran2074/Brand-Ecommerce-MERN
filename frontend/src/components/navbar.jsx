@@ -54,25 +54,40 @@ const Navbar = () => {
         </ul>
 
         <ul className="flex items-center gap-4 sm:gap-6">
-          <NavLink to="/Login">
-            <FaRegUser size={24} />
-          </NavLink>
+          <div className="group relative">
+            <NavLink to="/Login" className="flex items-center text-gray-700 hover:text-black transition py-1">
+              <FaRegUser size={24} />
+            </NavLink>
+            <div className="group-hover:block hidden absolute right-0 pt-3 z-50">
+              <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-600 rounded-md shadow-md border border-gray-200 text-sm">
+                <NavLink to="/Login" className="cursor-pointer hover:text-black transition">
+                  Profile
+                </NavLink>
+                <NavLink to="/cart" className="cursor-pointer hover:text-black transition">
+                  Cart
+                </NavLink>
+                <p className="cursor-pointer hover:text-black transition">
+                  Logout
+                </p>
+              </div>
+            </div>
+          </div>
           <NavLink to="/cart">
- <div className="relative">
-            <img src={cartIcon} className="w-6" />
+            <div className="relative">
+              <img src={cartIcon} className="w-6" />
 
-            <span
-              className="absolute -top-2 -right-2
+              <span
+                className="absolute -top-2 -right-2
                      bg-red-500 text-white
                      text-[10px] font-bold
                      w-4 h-4 rounded-full
                      flex items-center justify-center"
-            >
-              {bagItemsLength}
-            </span>
-          </div>
+              >
+                {bagItemsLength}
+              </span>
+            </div>
           </NavLink>
-         
+
 
           <button
             type="button"
