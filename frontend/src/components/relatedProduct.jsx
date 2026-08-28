@@ -15,10 +15,10 @@ const RelatedProduct = ({ category, subCategory }) => {
     setProduct(productCopy.slice(0, 5));
   }, [category, subCategory])
   return (
-    <><h2 className="text-center mt-12 mb-8 text-2xl sm:text-3xl font-semibold border-t  border-gray-300 pt-8 mx-15">
-  <span className="text-gray-600">Related </span>
-  <span className="text-gray-900">Products</span>
-</h2>
+    <>
+      <h1 className={
+        "text-3xl font-semibold text-gray-800 mb-4 ml-6 md:ml-20  lg:ml-30 mt-6 border-t border-gray-300 pt-6"
+      }>Related Products</h1>
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {product.map((item) => <Product key={item._id} item={item} />)}
