@@ -13,14 +13,15 @@ import Orders from './pages/order.jsx'
 import SignUp from './pages/SignUp.jsx'
 import Search from './components/search.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
- import React from 'react';
-  import { ToastContainer, toast } from 'react-toastify';
+import React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import TestUpload from './pages/temporary.jsx';
 function App() {
   return (
     <>
       <Navbar />
-      <ScrollToTop/>
-        <ToastContainer />
+      <ScrollToTop />
+      <ToastContainer />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/collection' element={<AllCollection />} />
@@ -32,6 +33,7 @@ function App() {
         <Route path='/SignUp' element={<SignUp />} />
         <Route path='/place-order' element={<PlaceOrder />} />
         <Route path='/order' element={<Orders />} />
+        <Route path='/test-upload' element={<TestUpload />} />
       </Routes>
     </>
   )
