@@ -6,10 +6,12 @@ import { RiDeleteBin6Line } from "react-icons/ri"
 import { HiOutlineSparkles } from "react-icons/hi2"
 import { FiPackage, FiLayers, FiTag } from "react-icons/fi"
 import DeletePopUp from '../components/deletePopUp'
+import Loader from '../components/loader'
 
 const List = ({ token }) => {
 
     const [list, setList] = useState([])
+    const [loading, setLoading] = useState(true)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [deleteId, setDeleteId] = useState(null)
     const [deleteName, setDeleteName] = useState('')
@@ -17,6 +19,7 @@ const List = ({ token }) => {
     //fetch product
     const productList = async () => {
         try {
+            setLoading(true)
             const response = await axios.get(backendUrl + "/api/product/get")
 
             if (!response.data.success) {
@@ -28,6 +31,8 @@ const List = ({ token }) => {
         } catch (error) {
             console.log(error)
             toast.error(error.message)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -75,7 +80,11 @@ const List = ({ token }) => {
             </div>
 
             {/* Content Container */}
-            {list.length > 0 ? (
+            {loading ? (
+                <div className="bg-white rounded-2xl border border-gray-200/90 shadow-xs flex flex-col items-center justify-center py-20 px-4">
+                    <Loader size="lg" text="Loading product inventory..." color="purple" />
+                </div>
+            ) : list.length > 0 ? (
                 <div className="bg-white rounded-2xl border border-gray-200/90 shadow-xs overflow-hidden">
 
                     {/* --- 1. DESKTOP & TABLET TABLE VIEW (Hidden on Mobile) --- */}

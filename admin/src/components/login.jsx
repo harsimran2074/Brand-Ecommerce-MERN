@@ -3,13 +3,17 @@ import { backendUrl } from '../App.jsx'
 import axios from "axios";
 import { toast } from 'react-toastify';
 import { assets } from '../assets/assets.js'
+import Loader from './loader.jsx'
+
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const onSubmitHandler = async (e) => {
     e.preventDefault()
     try {
+      setLoading(true)
       const response = await axios.post(backendUrl + '/api/auth/admin/login', { email, password });
       if (response.data.success) {
         setToken(response.data.token)
@@ -20,6 +24,8 @@ const Login = ({ setToken }) => {
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data?.message || error.message || "Something went wrong");
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -62,9 +68,17 @@ const Login = ({ setToken }) => {
 
           <button
             type="submit"
-            className="w-full mt-2 py-2.5 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium text-sm rounded-lg transition-all duration-200 active:scale-[0.99] shadow-sm shadow-purple-200 cursor-pointer"
+            disabled={loading}
+            className="w-full mt-2 py-2.5 px-4 bg-purple-600 hover:bg-purple-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium text-sm rounded-lg transition-all duration-200 active:scale-[0.99] shadow-sm shadow-purple-200 cursor-pointer flex items-center justify-center gap-2"
           >
-            Login
+            {loading ? (
+              <>
+                <Loader inline size="xs" color="white" />
+                <span>Logging in...</span>
+              </>
+            ) : (
+              <span>Login</span>
+            )}
           </button>
         </form>
       </div>

@@ -4,7 +4,7 @@ import CustomDropdown from '../components/reusableDropdown'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { backendUrl } from '../App'
-
+import Loader from '../components/loader'
 const Add = ({ token }) => {
 
     const [image1, setImage1] = useState(false)
@@ -19,6 +19,7 @@ const Add = ({ token }) => {
     const [subCategory, setSubCategory] = useState('Topwear')
     const [bestseller, setBestseller] = useState(false)
     const [sizes, setSizes] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const categoryOptions = ['Men', 'Women', 'Kids']
     const subCategoryOptions = ['Topwear', 'Bottomwear', 'Winterwear']
@@ -40,7 +41,7 @@ const Add = ({ token }) => {
         formData.append("price", price)
         formData.append("category", category)
         formData.append("subcategory", subCategory)
-        formData.append("bestseller", bestseller)
+        formData.append("bestSeller", bestseller)
         formData.append("sizes", JSON.stringify(sizes))
 
         image1 && formData.append("image1", image1)
@@ -49,9 +50,12 @@ const Add = ({ token }) => {
         image4 && formData.append("image4", image4)
 
 
-
+        for (const [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
 
         try {
+            setLoading(true)
             const response = await axios.post(backendUrl + "/api/product/add", formData, { headers: { token } })
             console.log(response);
             if (!response.data.success) {
@@ -74,7 +78,9 @@ const Add = ({ token }) => {
         }
         catch (error) {
             console.log(error.response);
-            toast.error(error.response.data.message)
+            toast.error(error.response?.data?.message || error.message || 'Failed to add product')
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -273,11 +279,20 @@ const Add = ({ token }) => {
             {/* Submit Button */}
             <button
                 type="submit"
-                className="mt-3 px-8 py-3 bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-medium text-sm rounded-xl transition-all duration-200 shadow-sm shadow-purple-200 cursor-pointer uppercase tracking-wider"
+                disabled={loading}
+                className="mt-3 px-8 py-3 bg-purple-600 hover:bg-purple-700 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium text-sm rounded-xl transition-all duration-200 shadow-sm shadow-purple-200 cursor-pointer uppercase tracking-wider flex items-center justify-center gap-2.5 min-w-[160px]"
             >
-                Add Product
+                {loading ? (
+                    <>
+                        <Loader inline size="xs" color="white" />
+                        <span>Adding Product...</span>
+                    </>
+                ) : (
+                    <span>Add Product</span>
+                )}
             </button>
         </form>
+
     )
 }
 
