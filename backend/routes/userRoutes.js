@@ -6,6 +6,6 @@ const { registerUser, loginUser, loginAdmin } = require('../controllers/userCont
 
 authRouter.post('/register', registerUser);
 authRouter.post('/login', loginUser);
-authRouter.get('/admin', loginAdmin);
+authRouter.post('/admin/login', loginAdmin);
 
 module.exports = authRouter;

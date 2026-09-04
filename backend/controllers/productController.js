@@ -3,10 +3,9 @@ const productModel = require("../models/productModel");
 
 //add product
 exports.addProduct = async (req, res) => {
+    console.log("addProduct begins.....");
     try {
         console.log("--- addProduct API hit ---");
-        // console.log("req.body:", req.body);
-        // console.log("req.files:", req.files);
 
         const { name, description, price, category, subcategory, bestSeller, sizes } = req.body;
 
@@ -17,22 +16,21 @@ exports.addProduct = async (req, res) => {
 
         const images = [image1, image2, image3, image4];
         const filteredImages = images.filter((item) => (item !== undefined));
+        console.log("filterred Images:", filteredImages);
 
         // saving images in cloudinary
-        let imagesUrl = [];
-        if (filteredImages.length > 0) {
-            imagesUrl = await Promise.all(
-                filteredImages.map(async (item) => {
-                    let result = await cloudinary.uploader.upload(
-                        item.path,
-                        { resource_type: 'image' }
-                    );
-                    return result.secure_url;
-                })
-            );
-        }
+        let imagesUrl = await Promise.all(
+            filteredImages.map(async (item) => {
+                let result = await cloudinary.uploader.upload(
+                    item.path,
+                    { resource_type: 'image' }
+                );
+                return result.secure_url;
+            })
+        );
 
-        console.log("Uploaded Cloudinary URLs:", imagesUrl);
+
+
 
         // Parse sizes safely
         let parsedSizes = [];
@@ -57,9 +55,9 @@ exports.addProduct = async (req, res) => {
         res.json({ success: true, msg: "Product added successfully", product });
     } catch (error) {
         console.error("Error in addProduct:", error);
-        res.status(500).json({ success: false, msg: error.message });
+        res.status(500).json({ success: false, msg: `${error.message}end error` });
     }
-};
+}
 
 //get all products
 exports.getAllProducts = async (req, res) => {
@@ -104,3 +102,19 @@ exports.updateProduct = async (req, res) => {
         res.json({ success: false, msg: "product not updated" })
     }
 }
+
+//single product
+exports.getSingleProduct = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const product = await productModel.findById(id);
+        if (!product) {
+            return res.json({ success: false, msg: "product not found" })
+        }
+        res.json({ success: true, msg: "Product fetched successfully", product });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, msg: "product not fetched" })
+    }
+}
+
