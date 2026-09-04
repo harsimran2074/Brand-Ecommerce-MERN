@@ -15,7 +15,6 @@ import Search from './components/search.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import TestUpload from './pages/temporary.jsx';
 function App() {
   return (
     <>
@@ -33,7 +32,6 @@ function App() {
         <Route path='/SignUp' element={<SignUp />} />
         <Route path='/place-order' element={<PlaceOrder />} />
         <Route path='/order' element={<Orders />} />
-        <Route path='/test-upload' element={<TestUpload />} />
       </Routes>
     </>
   )
