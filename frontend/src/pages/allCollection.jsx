@@ -11,16 +11,16 @@ import Footer from "../components/footer.jsx";
 
 
 const AllCollection = () => {
-  const data = useSelector((store) => store.allItemSlice);
+  const data = useSelector((store) => store.allItemSlice.products);
 
   const [showFilter, setFilter] = useState(false);
   const [filterProduct, setFilterProduct] = useState([]);
   const [category, setCategory] = useState([]);
   const [size, setSize] = useState([]);
   const [priceSort, setPriceSort] = useState("relevant");
-const [search, setSearch] = useState("");
-  
-//checking wheather category exist or not in the array
+  const [search, setSearch] = useState("");
+
+  //checking wheather category exist or not in the array
   const toggleCategory = (e) => {
     if (category.includes(e.target.value)) {
       setCategory((prev) => prev.filter((item) => item !== e.target.value));
@@ -42,7 +42,7 @@ const [search, setSearch] = useState("");
   const applyFilter = () => {
     let productCopy = data.slice();
 
-//category filter
+    //category filter
 
     if (category.length > 0) {
       productCopy = productCopy.filter((item) =>
@@ -50,7 +50,7 @@ const [search, setSearch] = useState("");
       );
     }
 
-//size filter
+    //size filter
 
     if (size.length > 0) {
       productCopy = productCopy.filter((item) =>
@@ -58,16 +58,16 @@ const [search, setSearch] = useState("");
       );
     }
 
-//sort filter
+    //sort filter
 
     switch (priceSort) {
       case "High-Low":
-        
+
         setFilterProduct(productCopy.sort((a, b) => (b.price - a.price)));
         break;
 
       case "Low-High":
-        
+
         setFilterProduct(productCopy.sort((a, b) => (a.price - b.price)));
         break;
 
@@ -76,12 +76,12 @@ const [search, setSearch] = useState("");
         break;
     }
 
-//search filer
+    //search filer
 
-if(search){
-  console.log(search);
-  productCopy = productCopy.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
-}
+    if (search) {
+      console.log(search);
+      productCopy = productCopy.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
+    }
 
     setFilterProduct(productCopy);
 
@@ -89,9 +89,9 @@ if(search){
 
   useEffect(() => {
     applyFilter();
-  }, [category, size , priceSort , search]);
+  }, [category, size, priceSort, search, data]);
 
-//UI thing
+  //UI thing
   const handleFilter = () => {
     if (showFilter == false) {
       setFilter(true);
@@ -103,7 +103,7 @@ if(search){
 
   return (
     <>
-    <Search setSearch={setSearch}/>
+      <Search setSearch={setSearch} />
       <main className="container mx-auto px-2 py-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 ml-5 mb-6">
           <section className="max-w-2xl">
@@ -212,11 +212,11 @@ if(search){
             </div>
           </aside>
 
-{/* //product maping */}
+          {/* //product maping */}
 
           <section className="flex-1">
 
-{/* //Product sorting */}
+            {/* //Product sorting */}
 
             <div className="flex justify-end mb-4">
               <select
@@ -224,9 +224,9 @@ if(search){
                 onChange={(e) => setPriceSort(e.target.value)}
                 className="border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-700 bg-white"
               >
-                <option value="relevant" onChange={(e)=>setPriceSort(e.target.value)}>Sort by : Relevant</option>
-                <option value="Low-High" onChange={(e)=>setPriceSort(e.target.value)}>Price: Low to High</option>
-                <option value="High-Low" onChange={(e)=>setPriceSort(e.target.value)}>Price: High to Low</option>
+                <option value="relevant" onChange={(e) => setPriceSort(e.target.value)}>Sort by : Relevant</option>
+                <option value="Low-High" onChange={(e) => setPriceSort(e.target.value)}>Price: Low to High</option>
+                <option value="High-Low" onChange={(e) => setPriceSort(e.target.value)}>Price: High to Low</option>
               </select>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

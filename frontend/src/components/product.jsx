@@ -4,7 +4,11 @@ import { useDispatch } from 'react-redux'
 import { addToBag } from '../redux/slices'
 const Product = ({ item }) => {
   const data = item || {}
-  const img = Array.isArray(data.image) ? data.image[0] : data.image
+  const img = Array.isArray(data.images) && data.images.length > 0
+    ? data.images[0]
+    : (Array.isArray(data.image) && data.image.length > 0
+      ? data.image[0]
+      : (data.images || data.image || ""));
   
   const dispatch = useDispatch();
   

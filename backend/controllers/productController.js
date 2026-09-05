@@ -47,7 +47,7 @@ exports.addProduct = async (req, res) => {
             category: category,
             subcategory: subcategory,
             date: Date.now(),
-            bestSeller: bestSeller == true ? true : false,
+            bestSeller: bestSeller === "true" || bestSeller === true ? true : false,
             sizes: parsedSizes
         });
         console.log(product);
@@ -92,7 +92,8 @@ exports.updateProduct = async (req, res) => {
 
 
     try {
-        const product = await productModel.findByIdAndUpdate(id, { name, description, price, image, category, subcategory, date, bestSeller, sizes });
+        const formattedBestSeller = bestSeller === "true" || bestSeller === true ? true : false;
+        const product = await productModel.findByIdAndUpdate(id, { name, description, price, image, category, subcategory, date, bestSeller: formattedBestSeller, sizes });
         if (!product) {
             return res.json({ success: false, msg: "product not found" })
         }

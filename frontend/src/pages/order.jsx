@@ -4,10 +4,10 @@ import Footer from "../components/footer";
 
 const Orders = () => {
   const bagItems = useSelector((store) => store.bagItemSlice || []);
-  const allProducts = useSelector((store) => store.allItemSlice || []);
+  const allProducts = useSelector((store) => store.allItemSlice?.products || []);
 
   // Show bag items if available, or fallback to sample products
-  const orderItems = bagItems.length > 0 ? bagItems : allProducts.slice(1, 4);
+  const orderItems = bagItems.length > 0 ? bagItems : allProducts.slice(0, 3);
 
   return (
     <>

@@ -5,15 +5,21 @@ import Product from './product'
 const RelatedProduct = ({ category, subCategory }) => {
 
   const [product, setProduct] = useState([]);
-  const products = useSelector((store) => store.allItemSlice)
-
+  const products = useSelector((store) => store.allItemSlice?.products || []);
 
   useEffect(() => {
+    if (!Array.isArray(products)) return;
     let productCopy = products.slice();
-    productCopy = productCopy.filter((item) => item.category === category)
-    productCopy = productCopy.filter((item) => item.subCategory === subCategory)
+    if (category) {
+      productCopy = productCopy.filter((item) => item.category === category);
+    }
+    if (subCategory) {
+      productCopy = productCopy.filter(
+        (item) => (item.subCategory || item.subcategory) === subCategory
+      );
+    }
     setProduct(productCopy.slice(0, 5));
-  }, [category, subCategory])
+  }, [products, category, subCategory]);
   return (
     <>
       <h1 className={

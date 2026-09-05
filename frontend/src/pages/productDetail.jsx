@@ -9,19 +9,21 @@ import { toast } from "react-toastify";
 
 const ProductDetail = () => {
   const { productId } = useParams();
+  const dispatch = useDispatch();
 
-  const data = useSelector((store) => store.allItemSlice);
+  const data = useSelector((store) => store.allItemSlice.products);
   const Item = data.find((item) => item._id === productId);
 
   const [selectedSize, setSelectedSize] = useState("");
-  const [image, setImage] = useState(Item?.image?.[0] || "");
+  const itemImages = Item?.images || Item?.image || [];
+  const [image, setImage] = useState(itemImages[0] || null);
 
   // Set first product image when Item becomes available
   useEffect(() => {
-    if (Item?.image?.[0]) {
-      setImage(Item.image[0]);
+    if (itemImages[0]) {
+      setImage(itemImages[0]);
     }
-  }, [Item]);
+  }, [itemImages]);
 
   // Product not found
   if (!Item) {
@@ -31,20 +33,16 @@ const ProductDetail = () => {
       </div>
     );
   }
-  const Images = Item.image;
-
-//Add to cart
-const dispatch = useDispatch();
-
-const handleAddToCart = () => {
-  if(!selectedSize){
-    toast.error("Please select a size");
-    return;
+  //Add to cart
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      toast.error("Please select a size");
+      return;
+    }
+    const cartItemDetail = { _id: Item._id, name: Item.name, image: itemImages[0], price: Item.price, quantity: 1, size: selectedSize };
+    dispatch(addToBag(cartItemDetail));
+    console.log(cartItemDetail);
   }
- const cartItemDetail = { _id:Item._id,name:Item.name, image:Item.image[0], price:Item.price, quantity:1 , size:selectedSize };
-  dispatch(addToBag(cartItemDetail));
-  console.log(cartItemDetail);
-}
 
   return (
     <>
@@ -63,7 +61,7 @@ const handleAddToCart = () => {
                 pb-1 md:pb-0
               "
             >
-              {Images.map((img, index) => (
+              {itemImages.map((img, index) => (
                 <button
                   key={index}
                   type="button"
@@ -163,7 +161,7 @@ const handleAddToCart = () => {
               </div>
 
               <div className="flex flex-wrap gap-3">
-                {Item.sizes.map((size) => (
+                {(Item.sizes || []).map((size) => (
                   <label
                     key={size}
                     className={`
@@ -174,10 +172,9 @@ const handleAddToCart = () => {
                       text-sm font-medium
                       cursor-pointer
                       transition-all duration-200
-                      ${
-                        selectedSize === size
-                          ? "bg-black text-white border-black"
-                          : "bg-white text-gray-700 border-gray-300 hover:border-black"
+                      ${selectedSize === size
+                        ? "bg-black text-white border-black"
+                        : "bg-white text-gray-700 border-gray-300 hover:border-black"
                       }
                     `}
                   >
@@ -211,7 +208,7 @@ const handleAddToCart = () => {
                 tracking-wider
                  active:bg-gray-700
                 transition
-              " onClick={()=> handleAddToCart()}
+              " onClick={() => handleAddToCart()}
             >
               Add to Cart
             </button>

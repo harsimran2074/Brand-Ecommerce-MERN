@@ -14,8 +14,19 @@ import SignUp from './pages/SignUp.jsx'
 import Search from './components/search.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchProducts } from "./redux/slices.jsx";
+import { useState } from 'react'
 function App() {
+  const [token, setToken] = useState();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
   return (
     <>
       <Navbar />
@@ -28,8 +39,8 @@ function App() {
         <Route path='/contact' element={<Contact />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/product/:productId' element={<ProductDetail />} />
-        <Route path='/Login' element={<Login />} />
-        <Route path='/SignUp' element={<SignUp />} />
+        <Route path='/Login' element={<Login setToken={setToken} />} />
+        <Route path='/SignUp' element={<SignUp setToken={setToken} />} />
         <Route path='/place-order' element={<PlaceOrder />} />
         <Route path='/order' element={<Orders />} />
       </Routes>
