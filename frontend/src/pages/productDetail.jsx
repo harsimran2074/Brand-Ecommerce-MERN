@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import RelatedProduct from "../components/relatedProduct.jsx";
 import star from "../assets/star_icon.png";
 import Footer from "../components/footer.jsx";
-import { addToBag } from "../redux/slices.jsx";
+import { addToCart } from "../redux/slices.jsx";
 import { toast } from "react-toastify";
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const data = useSelector((store) => store.allItemSlice.products);
   const Item = data.find((item) => item._id === productId);
@@ -34,15 +35,20 @@ const ProductDetail = () => {
     );
   }
   //Add to cart
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!selectedSize) {
       toast.error("Please select a size");
       return;
     }
-    const cartItemDetail = { _id: Item._id, name: Item.name, image: itemImages[0], price: Item.price, quantity: 1, size: selectedSize };
-    dispatch(addToBag(cartItemDetail));
-    console.log(cartItemDetail);
-  }
+    try {
+      const cartItemDetail = { itemId: Item._id, size: selectedSize };
+      await dispatch(addToCart(cartItemDetail)).unwrap();
+    } catch (error) {
+      console.log("cart not added at product detail:", error);
+      navigate("/SignUp");
+    }
+  };
+
 
   return (
     <>

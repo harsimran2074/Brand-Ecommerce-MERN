@@ -68,7 +68,7 @@ const UpiIcon = () => (
 
 const PlaceOrder = () => {
   const navigate = useNavigate();
-  const cartItems = useSelector((store) => store.bagItemSlice || []);
+  const cartItems = useSelector(selectCartItems);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -539,8 +539,8 @@ const PlaceOrder = () => {
                     {/* OPTION A: UPI (Google Pay, PhonePe, Paytm, etc.) */}
                     <div
                       className={`border rounded-xl p-4 transition cursor-pointer ${paymentCategory === "upi"
-                          ? "border-black bg-gray-50/80 shadow-xs ring-1 ring-black"
-                          : "border-gray-200 hover:border-gray-300 bg-white"
+                        ? "border-black bg-gray-50/80 shadow-xs ring-1 ring-black"
+                        : "border-gray-200 hover:border-gray-300 bg-white"
                         }`}
                       onClick={() => setPaymentCategory("upi")}
                     >
@@ -583,8 +583,8 @@ const PlaceOrder = () => {
                               type="button"
                               onClick={() => setUpiSubMethod("gpay")}
                               className={`flex flex-col items-center justify-center p-2.5 rounded-lg border text-xs font-semibold transition ${upiSubMethod === "gpay"
-                                  ? "border-blue-600 bg-blue-50/60 text-blue-900 ring-1 ring-blue-500 shadow-xs"
-                                  : "border-gray-200 hover:bg-gray-50 text-gray-700 bg-white"
+                                ? "border-blue-600 bg-blue-50/60 text-blue-900 ring-1 ring-blue-500 shadow-xs"
+                                : "border-gray-200 hover:bg-gray-50 text-gray-700 bg-white"
                                 }`}
                             >
                               <GooglePayIcon />
@@ -596,8 +596,8 @@ const PlaceOrder = () => {
                               type="button"
                               onClick={() => setUpiSubMethod("phonepe")}
                               className={`flex flex-col items-center justify-center p-2.5 rounded-lg border text-xs font-semibold transition ${upiSubMethod === "phonepe"
-                                  ? "border-purple-600 bg-purple-50/60 text-purple-900 ring-1 ring-purple-500 shadow-xs"
-                                  : "border-gray-200 hover:bg-gray-50 text-gray-700 bg-white"
+                                ? "border-purple-600 bg-purple-50/60 text-purple-900 ring-1 ring-purple-500 shadow-xs"
+                                : "border-gray-200 hover:bg-gray-50 text-gray-700 bg-white"
                                 }`}
                             >
                               <PhonePeIcon />
@@ -609,8 +609,8 @@ const PlaceOrder = () => {
                               type="button"
                               onClick={() => setUpiSubMethod("paytm")}
                               className={`flex flex-col items-center justify-center p-2.5 rounded-lg border text-xs font-semibold transition ${upiSubMethod === "paytm"
-                                  ? "border-sky-600 bg-sky-50/60 text-sky-900 ring-1 ring-sky-500 shadow-xs"
-                                  : "border-gray-200 hover:bg-gray-50 text-gray-700 bg-white"
+                                ? "border-sky-600 bg-sky-50/60 text-sky-900 ring-1 ring-sky-500 shadow-xs"
+                                : "border-gray-200 hover:bg-gray-50 text-gray-700 bg-white"
                                 }`}
                             >
                               <PaytmIcon />
@@ -661,8 +661,8 @@ const PlaceOrder = () => {
                     {/* OPTION B: DEBIT / CREDIT CARD (Visa, Mastercard, RuPay) */}
                     <div
                       className={`border rounded-xl p-4 transition cursor-pointer ${paymentCategory === "card"
-                          ? "border-black bg-gray-50/80 shadow-xs ring-1 ring-black"
-                          : "border-gray-200 hover:border-gray-300 bg-white"
+                        ? "border-black bg-gray-50/80 shadow-xs ring-1 ring-black"
+                        : "border-gray-200 hover:border-gray-300 bg-white"
                         }`}
                       onClick={() => setPaymentCategory("card")}
                     >
@@ -704,8 +704,8 @@ const PlaceOrder = () => {
                                   type="button"
                                   onClick={() => setSelectedCardNetwork(net)}
                                   className={`px-2 py-0.5 rounded text-[11px] font-bold uppercase transition ${selectedCardNetwork === net
-                                      ? "bg-black text-white"
-                                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                                    ? "bg-black text-white"
+                                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                                     }`}
                                 >
                                   {net}
@@ -788,8 +788,8 @@ const PlaceOrder = () => {
                     {/* OPTION C: CASH ON DELIVERY */}
                     <div
                       className={`border rounded-xl p-4 transition cursor-pointer ${paymentCategory === "cod"
-                          ? "border-black bg-gray-50/80 shadow-xs ring-1 ring-black"
-                          : "border-gray-200 hover:border-gray-300 bg-white"
+                        ? "border-black bg-gray-50/80 shadow-xs ring-1 ring-black"
+                        : "border-gray-200 hover:border-gray-300 bg-white"
                         }`}
                       onClick={() => setPaymentCategory("cod")}
                     >
@@ -818,8 +818,8 @@ const PlaceOrder = () => {
                     {/* OPTION D: RAZORPAY / STRIPE (Alternative Gateway) */}
                     <div
                       className={`border rounded-xl p-4 transition cursor-pointer ${paymentCategory === "razorpay"
-                          ? "border-black bg-gray-50/80 shadow-xs ring-1 ring-black"
-                          : "border-gray-200 hover:border-gray-300 bg-white"
+                        ? "border-black bg-gray-50/80 shadow-xs ring-1 ring-black"
+                        : "border-gray-200 hover:border-gray-300 bg-white"
                         }`}
                       onClick={() => setPaymentCategory("razorpay")}
                     >
@@ -855,10 +855,10 @@ const PlaceOrder = () => {
                       type="submit"
                       disabled={isSubmitting || cartItems.length === 0}
                       className={`w-full py-3.5 px-6 rounded-xl font-bold uppercase tracking-wider text-sm transition-all duration-200 shadow-md flex items-center justify-center gap-2 ${cartItems.length === 0
-                          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                          : isSubmitting
-                            ? "bg-gray-800 text-white cursor-wait opacity-90"
-                            : "bg-black text-white hover:bg-gray-900 active:scale-[0.99] hover:shadow-lg"
+                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                        : isSubmitting
+                          ? "bg-gray-800 text-white cursor-wait opacity-90"
+                          : "bg-black text-white hover:bg-gray-900 active:scale-[0.99] hover:shadow-lg"
                         }`}
                     >
                       {isSubmitting ? (

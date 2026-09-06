@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { addToBag } from '../redux/slices'
+
 const Product = ({ item }) => {
   const data = item || {}
   const img = Array.isArray(data.images) && data.images.length > 0
@@ -9,12 +8,7 @@ const Product = ({ item }) => {
     : (Array.isArray(data.image) && data.image.length > 0
       ? data.image[0]
       : (data.images || data.image || ""));
-  
-  const dispatch = useDispatch();
-  
-  const addToCart = (item) => {
-     dispatch(addToBag(item))
-  }
+
 
   return (
     <div className="w-full bg-white rounded-lg shadow-sm overflow-hidden">
@@ -31,13 +25,13 @@ const Product = ({ item }) => {
 
       <div className="px-4 pb-4 mt-3">
         <div className="flex flex-col sm:flex-row gap-3 items-center">
-          
-<NavLink
-  to={`/product/${data._id}`}
-  className="w-full sm:flex-1 flex items-center justify-center h-10 px-4 bg-white border border-gray-200 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-200 transition-colors"
->
-  View details
-</NavLink>
+
+          <NavLink
+            to={`/product/${data._id}`}
+            className="w-full sm:flex-1 flex items-center justify-center h-10 px-4 bg-white border border-gray-200 text-sm text-gray-700 font-medium rounded-md hover:bg-gray-200 transition-colors"
+          >
+            View details
+          </NavLink>
         </div>
       </div>
     </div>

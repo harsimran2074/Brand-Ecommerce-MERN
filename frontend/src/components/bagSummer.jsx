@@ -1,16 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { selectBagSummary } from '../redux/slices';
 
-const BagSummery = ({ items = [] }) => {
+const BagSummery = () => {
+
+  const { subtotal, deliveryFee, total } = useSelector(selectBagSummary);
+
   const navigate = useNavigate();
-  const subtotal = items.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
-  
-  const deliveryFee = subtotal === 0 ? 0 : 50;
-  const Total = subtotal + deliveryFee;
 
   const handleCheckout = () => {
-    if (!items || items.length === 0) {
+    if (!subtotal) {
       toast.warn("Your cart is empty! Add items to continue.");
       return;
     }
@@ -35,7 +36,7 @@ const BagSummery = ({ items = [] }) => {
 
           <div className="border-t pt-4 flex justify-between text-lg font-semibold">
             <span>Total</span>
-            <span>₹{Total}</span>
+            <span>₹{total}</span>
           </div>
 
           <button
@@ -50,4 +51,4 @@ const BagSummery = ({ items = [] }) => {
   );
 };
 
-export default BagSummery;
+export default BagSummery;

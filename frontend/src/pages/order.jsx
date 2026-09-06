@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import Footer from "../components/footer";
 
 const Orders = () => {
-  const bagItems = useSelector((store) => store.bagItemSlice || []);
+  const bagItems = useSelector(selectCartItems);
   const allProducts = useSelector((store) => store.allItemSlice?.products || []);
+
 
   // Show bag items if available, or fallback to sample products
   const orderItems = bagItems.length > 0 ? bagItems : allProducts.slice(0, 3);

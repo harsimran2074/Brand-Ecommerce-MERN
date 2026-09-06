@@ -17,15 +17,34 @@ import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { fetchProducts } from "./redux/slices.jsx";
+import { fetchProducts, getCart } from "./redux/slices.jsx";
 import { useState } from 'react'
 function App() {
-  const [token, setToken] = useState();
+  // const [token, setToken] = useState();
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(fetchProducts());
+  //   if (localStorage.getItem("token")) {
+  //     dispatch(getCart());
+  //   }
+  // }, [dispatch]);
+
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (token) {
+      dispatch(getCart());
+    }
+  }, [dispatch, token]);
+
+
 
   return (
     <>

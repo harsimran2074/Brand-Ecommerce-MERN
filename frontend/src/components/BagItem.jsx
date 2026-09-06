@@ -1,16 +1,32 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { removeFromCart } from "../redux/slices";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCartAPI, updateCart } from "../redux/slices";
 import { RiDeleteBin6Line, RiTruckLine } from "react-icons/ri";
-import {updateQuantity} from "../redux/slices"
+
 const BagItem = ({ data }) => {
+  const products = useSelector((state) => state.allItemSlice.products);
   const dispatch = useDispatch();
 
-  const removeItem = () => {
-    dispatch(removeFromCart({id:data._id , size:data.size}));
+  const handleRemoveItem = () => {
+    dispatch(removeFromCartAPI({ itemId: data._id, size: data.size }));
   };
 
-  const imageSrc = Array.isArray(data?.image) ? data.image[0] : data?.image;
+  const handleDecreaseQuantity = () => {
+    const currentQty = data?.quantity || 1;
+    if (currentQty > 1) {
+      dispatch(updateCart({ itemId: data._id, size: data.size, quantity: currentQty - 1 }));
+    }
+  };
+
+  const handleIncreaseQuantity = () => {
+    const currentQty = data?.quantity || 1;
+    dispatch(updateCart({ itemId: data._id, size: data.size, quantity: currentQty + 1 }));
+  };
+
+  // finding product from all products list
+  const product = products.find((item) => String(item._id) === String(data?._id));
+  const productImages = product?.images || product?.image || data?.images || data?.image;
+  const imageSrc = Array.isArray(productImages) ? productImages[0] : productImages;
 
   return (
     <div className="group bg-white border border-gray-200/90 rounded-2xl p-4 sm:p-5 mb-4 shadow-xs hover:shadow-md transition-all duration-200">
@@ -21,7 +37,7 @@ const BagItem = ({ data }) => {
           <div className="w-20 h-24 sm:w-28 sm:h-32 bg-gray-50 rounded-xl overflow-hidden shrink-0 border border-gray-100 flex items-center justify-center p-1.5">
             <img
               src={imageSrc}
-              alt={data?.name || "Product"}
+              alt={product?.name || data?.name || "Product"}
               className="w-full h-full object-contain object-center transition-transform duration-300 group-hover:scale-105"
             />
           </div>
@@ -30,7 +46,7 @@ const BagItem = ({ data }) => {
           <div className="flex-1 min-w-0 flex flex-col justify-between">
             <div>
               <h2 className="text-sm sm:text-base font-semibold text-gray-900 truncate sm:line-clamp-2 leading-snug">
-                {data?.name}
+                {product?.name || data?.name}
               </h2>
 
               <div className="flex flex-wrap items-center gap-2 mt-1.5 sm:mt-2">
@@ -39,9 +55,9 @@ const BagItem = ({ data }) => {
                     Size: <span className="font-semibold ml-1 text-gray-900">{data.size}</span>
                   </span>
                 )}
-                {data?.category && (
+                {product?.category && (
                   <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium text-gray-500 bg-gray-50">
-                    {data.category}
+                    {product.category}
                   </span>
                 )}
               </div>
@@ -49,7 +65,7 @@ const BagItem = ({ data }) => {
 
             {/* Mobile Price Display */}
             <div className="mt-2.5 sm:hidden flex items-baseline gap-1">
-              <span className="text-base font-bold text-gray-900">${data?.price}</span>
+              <span className="text-base font-bold text-gray-900">₹{product?.price}</span>
             </div>
           </div>
         </div>
@@ -63,7 +79,7 @@ const BagItem = ({ data }) => {
               className="w-7 h-7 flex items-center justify-center rounded-md bg-white border border-gray-200/80 text-gray-600 hover:text-black hover:bg-gray-100 active:scale-95 transition-all text-xs font-bold cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               aria-label="Decrease quantity"
               disabled={(data?.quantity || 1) <= 1}
-              onClick={() => dispatch(updateQuantity({ _id: data._id, size: data.size, change: -1 }))}
+              onClick={handleDecreaseQuantity}
             >
               −
             </button>
@@ -76,8 +92,7 @@ const BagItem = ({ data }) => {
               type="button"
               className="w-7 h-7 flex items-center justify-center rounded-md bg-white border border-gray-200/80 text-gray-600 hover:text-black hover:bg-gray-100 active:scale-95 transition-all text-xs font-bold cursor-pointer"
               aria-label="Increase quantity"
-              onClick={()=> dispatch(updateQuantity({_id:data._id , size:data.size , change:+1})) }
-
+              onClick={handleIncreaseQuantity}
             >
               +
             </button>
@@ -85,10 +100,10 @@ const BagItem = ({ data }) => {
 
           {/* Desktop Price & Delivery Estimate */}
           <div className="hidden sm:flex flex-col items-end min-w-28 text-right">
-            <p className="text-lg font-bold text-gray-900">${data?.price}</p>
+            <p className="text-lg font-bold text-gray-900">₹{product?.price}</p>
             <div className="flex items-center gap-1 mt-1 text-[11px] text-gray-500 font-medium">
               <RiTruckLine className="w-3.5 h-3.5 text-gray-400" />
-              <span>Est. 24–27 Aug</span>
+              <span>Free Delivery</span>
             </div>
           </div>
 
@@ -96,7 +111,7 @@ const BagItem = ({ data }) => {
           <button
             type="button"
             className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 cursor-pointer"
-            onClick={() => removeItem({ id: data?._id, size: data?.size })}
+            onClick={handleRemoveItem}
             title="Remove item"
             aria-label="Remove item"
           >
@@ -109,3 +124,4 @@ const BagItem = ({ data }) => {
 };
 
 export default BagItem;
+

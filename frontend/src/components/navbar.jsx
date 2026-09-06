@@ -13,8 +13,9 @@ import {
   FiCheckCircle
 } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { clearCart } from "../redux/slices";
 import logo from "../assets/logo.png";
 import menu from "../assets/menu_icon.png";
 import cartIcon from "../assets/cart_icon.png";
@@ -34,8 +35,26 @@ const mobileNavLinkClass = ({ isActive }) =>
    ${isActive ? "text-black font-semibold bg-gray-100" : "text-gray-600 font-medium"}`;
 
 const Navbar = () => {
-  const bagItems = useSelector((store) => store.bagItemSlice || []);
-  const bagItemsLength = bagItems.reduce((acc, item) => acc + (item.quantity || 1), 0);
+  const dispatch = useDispatch();
+  const cartData = useSelector(
+    (store) => store.bagItemSlice?.cartData || {}
+  );
+
+  const bagItemsLength = Object.values(cartData).reduce(
+    (total, sizes) => {
+      if (typeof sizes === "object" && sizes !== null) {
+        return (
+          total +
+          Object.values(sizes).reduce(
+            (sum, quantity) => sum + (Number(quantity) || 0),
+            0
+          )
+        );
+      }
+      return total;
+    },
+    0
+  );
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
@@ -85,11 +104,13 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    dispatch(clearCart());
     setIsLoggedIn(false);
     setProfileDropdownOpen(false);
     toast.success("Logged out successfully");
     navigate("/Login");
   };
+
 
   return (
     <nav className="relative  bg-white text-black border-b border-gray-200 pb-3 md:mx-15 mb-7 sticky top-0 z-40 backdrop-blur-md bg-white/95 transition-all">
