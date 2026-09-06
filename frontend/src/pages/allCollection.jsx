@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import Loader from "../components/loader.jsx";
 import dropdown from "../assets/dropdown_icon.png";
 import { assets } from "../assets/assets.js";
 
