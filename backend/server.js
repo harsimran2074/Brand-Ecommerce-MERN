@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const connectCloudinary = require("./config/cloudinary");
 const authRouter = require("./routes/userRoutes");
 const productRouter = require("./routes/productRoutes");
+const cartRouter = require("./routes/cartRoutes");
 const app = express();
 
 // middlewares
@@ -17,7 +18,7 @@ connectCloudinary();
 //auth endpoints
 app.use('/api/auth', authRouter);
 app.use('/api/product', productRouter)
-
+app.use('/api/cart', cartRouter)
 app.get('/', (req, res) => {
     res.send("Server is working");
 });
