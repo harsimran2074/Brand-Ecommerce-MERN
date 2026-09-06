@@ -11,6 +11,8 @@ import Footer from "../components/footer.jsx";
 
 
 const AllCollection = () => {
+  const loaderStatus = useSelector((store) => store.allItemSlice.loading)
+
   const data = useSelector((store) => store.allItemSlice.products);
 
   const [showFilter, setFilter] = useState(false);
@@ -213,30 +215,30 @@ const AllCollection = () => {
           </aside>
 
           {/* //product maping */}
+          {loaderStatus ? <Loader /> :
+            <section className="flex-1">
 
-          <section className="flex-1">
-
-            {/* //Product sorting */}
-
-            <div className="flex justify-end mb-4">
-              <select
-                value={priceSort}
-                onChange={(e) => setPriceSort(e.target.value)}
-                className="border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-700 bg-white"
-              >
-                <option value="relevant" onChange={(e) => setPriceSort(e.target.value)}>Sort by : Relevant</option>
-                <option value="Low-High" onChange={(e) => setPriceSort(e.target.value)}>Price: Low to High</option>
-                <option value="High-Low" onChange={(e) => setPriceSort(e.target.value)}>Price: High to Low</option>
-              </select>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {filterProduct?.map((item) => (
-                <div key={item._id}>
-                  <Product item={item} />
-                </div>
-              ))}
-            </div>
-          </section>
+              {/* //Product sorting */}
+              <div className="flex justify-end mb-4">
+                <select
+                  value={priceSort}
+                  onChange={(e) => setPriceSort(e.target.value)}
+                  className="border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-700 bg-white"
+                >
+                  <option value="relevant" onChange={(e) => setPriceSort(e.target.value)}>Sort by : Relevant</option>
+                  <option value="Low-High" onChange={(e) => setPriceSort(e.target.value)}>Price: Low to High</option>
+                  <option value="High-Low" onChange={(e) => setPriceSort(e.target.value)}>Price: High to Low</option>
+                </select>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {filterProduct?.map((item) => (
+                  <div key={item._id}>
+                    <Product item={item} />
+                  </div>
+                ))}
+              </div>
+            </section>
+          }
         </div>
       </main>
 
