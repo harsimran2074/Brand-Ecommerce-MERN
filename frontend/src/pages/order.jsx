@@ -1,17 +1,44 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Footer from "../components/footer";
-
+// import { useMemo } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 const Orders = () => {
-  const bagItems = useSelector(selectCartItems);
-  const allProducts = useSelector((store) => store.allItemSlice?.products || []);
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const [orderItems, setOrderItems] = useState([])
 
-  // Show bag items if available, or fallback to sample products
-  const orderItems = bagItems.length > 0 ? bagItems : allProducts.slice(0, 3);
+  const getOrders = async () => {
+    const token = localStorage.getItem("token")
+    try {
+      const response = await axios.get(backendUrl + "/api/order/userOrders", {
+        headers: { token }
+      })
+      if (response.data.success) {
+        let allOrdersItem = []
+        response.data.orders.map((order) => {
+          order.items.map((item) => {
+            item['status'] = order.status
+            item['payment'] = order.payment
+            item['paymentMethod'] = order.paymentMethod
+            item['date'] = order.date
+            allOrdersItem.push(item)
+          })
+        })
+        setOrderItems(allOrdersItem.reverse())
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  console.log(orderItems)
+  useEffect(() => {
+    getOrders()
+  }, [])
 
   return (
-    <>
+    <>{orderItems.length === 0 ? <p className="flex justify-center items-center h-[70vh] text-gray-700 text-sm md:text-2xl">No orders yet </p> : <div>
       <div className="border-t pt-10 min-h-[70vh] px-4 sm:px-10 lg:px-24">
         <div className="mb-6">
           <p className="text-2xl md:text-3xl font-bold uppercase tracking-wide text-gray-700">
@@ -20,7 +47,7 @@ const Orders = () => {
         </div>
 
         <div className="divide-y divide-gray-200">
-          {orderItems.map((item, index) => {
+          {orderItems?.map((item, index) => {
             const imgSrc = Array.isArray(item.image) ? item.image[0] : item.image;
 
             return (
@@ -45,10 +72,10 @@ const Orders = () => {
                       <p>Size: {item.size || "M"}</p>
                     </div>
                     <p className="mt-2 text-xs text-gray-500">
-                      Date: <span className="text-gray-400">25, Jul, 2024</span>
+                      Date: <span className="text-gray-400">{new Date(item.date).toLocaleDateString()}</span>
                     </p>
                     <p className="text-xs text-gray-500">
-                      Payment: <span className="text-gray-400">COD</span>
+                      Payment: <span className="text-gray-400">{item.paymentMethod}</span>
                     </p>
                   </div>
                 </div>
@@ -58,7 +85,7 @@ const Orders = () => {
                   <div className="flex items-center gap-2">
                     <p className="min-w-2 h-2 rounded-full bg-green-500"></p>
                     <p className="text-sm md:text-base text-gray-600">
-                      Ready to ship
+                      {item.status}
                     </p>
                   </div>
 
@@ -75,7 +102,7 @@ const Orders = () => {
           })}
         </div>
       </div>
-
+    </div>}
       <Footer />
     </>
   );
