@@ -6,6 +6,7 @@ const connectCloudinary = require("./config/cloudinary");
 const authRouter = require("./routes/userRoutes");
 const productRouter = require("./routes/productRoutes");
 const cartRouter = require("./routes/cartRoutes");
+const orderRouter = require("./routes/orderRoutes");
 const app = express();
 
 // middlewares
@@ -19,6 +20,7 @@ connectCloudinary();
 app.use('/api/auth', authRouter);
 app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
+app.use('/api/order', orderRouter)
 app.get('/', (req, res) => {
     res.send("Server is working");
 });
