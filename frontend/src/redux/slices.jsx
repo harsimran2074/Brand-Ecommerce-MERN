@@ -42,6 +42,7 @@ export const addToCart = createAsyncThunk(
 
          if (response.data.success) {
             toast.success(response.data.msg || "Added to cart!");
+
          } else {
             toast.error(response.data.message || response.data.msg || "Failed to add to cart");
          }

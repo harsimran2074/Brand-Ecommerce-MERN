@@ -68,9 +68,14 @@ const PlaceOrder = () => {
   };
 
   // Razorpay Payment Initialization Handler
-  const initPay = (order) => {
+  const initPay = (order, razorpayKey) => {
+    const key = razorpayKey || import.meta.env.VITE_RAZORPAY_KEY_ID;
+    if (!key) {
+      toast.error("Razorpay Key is missing. Please restart your frontend server or verify environment variables.");
+      return;
+    }
     const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+      key: key,
       amount: order.amount,
       currency: order.currency,
       name: "Order Payment",
@@ -86,9 +91,10 @@ const PlaceOrder = () => {
           );
           if (data.success) {
             dispatch(clearCart());
+            toast.success("Payment successful! Order placed.");
             navigate("/order");
           } else {
-            toast.error(data.message);
+            toast.error(data.message || "Payment verification failed");
           }
         } catch (error) {
           console.log(error);
@@ -96,6 +102,7 @@ const PlaceOrder = () => {
         }
       },
     };
+    console.log("Razorpay key used:", key);
     const rzp = new window.Razorpay(options);
     rzp.open();
   };
@@ -103,7 +110,6 @@ const PlaceOrder = () => {
   // Handle form submission / action
   const handleSubmit = async (event) => {
     console.log("place order clicked");
-
 
     event.preventDefault();
     try {
@@ -127,7 +133,7 @@ const PlaceOrder = () => {
           );
           if (response.data.success) {
             dispatch(clearCart());
-            console.log(response)
+            console.log(response);
             toast.success("Order placed successfully");
             navigate("/order");
           } else {
@@ -143,9 +149,17 @@ const PlaceOrder = () => {
             { headers: { token } }
           );
           if (responseRazorpay.data.success) {
-            initPay(responseRazorpay.data.order);
+            initPay(responseRazorpay.data.order, responseRazorpay.data.key);
           } else {
-            toast.error(responseRazorpay.data.message);
+            console.log(responseRazorpay);
+            console.log(responseRazorpay.data.message)
+            const errorMsg =
+              typeof responseRazorpay.data.message === "string"
+                ? responseRazorpay.data.message
+                : responseRazorpay.data.message?.error?.description ||
+                responseRazorpay.data.message?.description ||
+                "Payment initialization failed";
+            toast.error(errorMsg);
           }
           break;
         }

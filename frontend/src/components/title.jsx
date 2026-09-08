@@ -5,10 +5,10 @@ const Title = () => {
     <div>
       <div className="flex flex-row sm:flex-row items-center justify-center mt-10 sm:mt-16 md:mt-20 gap-1 sm:gap-4 text-center">
         <span className="text-3xl sm:text-4xl md:text-5xl text-gray-600">
-          Latest{" "}
+          BEST{" "}
         </span>
         <span className="text-3xl sm:text-4xl md:text-5xl">
-          Collection ___
+          SELLERS___
         </span>
       </div>
 

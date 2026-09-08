@@ -42,7 +42,9 @@ const ProductDetail = () => {
     }
     try {
       const cartItemDetail = { itemId: Item._id, size: selectedSize };
-      await dispatch(addToCart(cartItemDetail)).unwrap();
+      await dispatch(addToCart(cartItemDetail)).unwrap().then(() => {
+        navigate("/Cart");
+      })
     } catch (error) {
       console.log("cart not added at product detail:", error);
       navigate("/SignUp");
@@ -140,7 +142,7 @@ const ProductDetail = () => {
             {/* Price */}
             <div className="mt-5 sm:mt-3">
               <p className="text-2xl sm:text-3xl font-semibold text-gray-900">
-                ${Item.price}
+                ₹{Item.price}
               </p>
             </div>
 

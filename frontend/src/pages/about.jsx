@@ -1,80 +1,176 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import about_img from "../assets/about_img.png";
 import Footer from "../components/footer";
+import { FiAward, FiTruck, FiHeadphones, FiArrowRight } from "react-icons/fi";
+
 const About = () => {
   return (
-    <>
-    <main className="container mx-auto p-6">
-      <div className="mb-4 w-full h-30  bg-gray-200 border border-gray-300 rounded-md p-4">
-        <h1 className="text-4xl font-bold mb-4">ABOUT US ___</h1>
-        <p className="text-xs pt-2 ">Proud of Where We Come From</p>
-      </div>
-      <section className="flex flex-col md:flex-row items-center gap-6">
-        <img
-          src={about_img}
-          alt="About us"
-          className="w-full md:w-1/2 object-cover rounded-md shadow-sm"
-        />
-        <div className="md:flex-1 text-gray-700">
-          <h1 className="text-3xl font-bold mb-4">Our Story</h1>
-          <p>
-            We started with a simple idea: clothing can be more than just
-            fashion—it can be a way to express who you are and where you come
-            from. Our T-shirts are inspired by Kamboj culture, identity, and the
-            pride that connects our community. We wanted to create something
-            that today's youth could wear every day while still carrying a
-            connection to their roots.
-          </p>
-
-          <h1 className="text-3xl font-bold mb-4 mt-8">More Than a T-Shirt</h1>
-          <p>
-            Every design we create represents something meaningful to us. From
-            Kamboj-inspired prints to modern streetwear styles, our T-shirts are
-            made for those who are proud of their identity and want to express
-            it confidently.It's not just about what you wear; it's about what
-            you represent.{" "}
-          </p>
-        </div>
-      </section>
+    <div className="min-h-screen bg-[#f8f9fc] text-slate-800 antialiased font-sans">
       
-      <section className="mt-10 mb-10">
-        <div className="flex items-start justify-between mb-6">
-          <div>
-            <h2 className="text-base sm:text-2xl font-bold ">Why choose us ____</h2>
-            <p className="text-gray-600 mt-2 max-w-xl">Quality products, thoughtful design, and service you can trust — tailored for everyday life.</p>
-          </div>
-        </div>
+      {/* Dark Contrast Hero Header */}
+      <section className="relative bg-slate-950 text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {/* Subtle Ambient Glow */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="flex gap-6 p-6 bg-white border border-gray-400 rounded-lg shadow-sm hover:shadow-md transition">
-            <div className=" h-16 w-16 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-700">QA</div>
-            <div>
-              <h3 className="text-xl font-semibold">Quality Assurance</h3>
-              <p className="text-base text-gray-600 mt-2">We carefully select and vet every product to meet strict quality standards.</p>
-            </div>
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-slate-300 text-xs font-semibold tracking-wider uppercase shadow-inner">
+            <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+            Our Heritage & Craftsmanship
           </div>
+          
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white">
+            ABOUT US <span className="text-indigo-400 font-light">___</span>
+          </h1>
 
-          <div className="flex gap-6 p-6 bg-white border border-gray-400 rounded-lg shadow-sm hover:shadow-md transition">
-            <div className=" h-16 w-16 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-700">CV</div>
-            <div>
-              <h3 className="text-xl font-semibold">Convenience</h3>
-              <p className="text-base text-gray-600 mt-2">A smooth checkout and easy returns make shopping with us effortless.</p>
-            </div>
-          </div>
-
-          <div className="flex gap-6 p-6 bg-white border border-gray-400 rounded-lg shadow-sm hover:shadow-md transition">
-            <div className=" h-16 w-16 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-700">CS</div>
-            <div>
-              <h3 className="text-xl font-semibold">Exceptional Support</h3>
-              <p className="text-base text-gray-600 mt-2">Our team is ready to help — fast, friendly, and helpful support whenever you need it.</p>
-            </div>
-          </div>
+          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+            Proud of where we come from. Dedicated to creating modern apparel infused with cultural identity, authenticity, and premium craftsmanship.
+          </p>
         </div>
       </section>
-    </main>
-    
-      <Footer/>
-      </>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16 sm:space-y-24">
+        
+        {/* Story Section */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Left Image with Dark Contrast Frame */}
+          <div className="lg:col-span-5 relative group">
+            <div className="relative h-[380px] sm:h-[480px] w-full rounded-3xl overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl">
+              <img
+                src={about_img}
+                alt="About our brand"
+                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-95 group-hover:opacity-100"
+              />
+            </div>
+            {/* Dark Floating Badge */}
+            <div className="absolute -bottom-4 -right-4 hidden sm:flex bg-slate-950 text-white border border-slate-800 px-5 py-3 rounded-2xl shadow-2xl text-xs font-semibold items-center gap-2">
+              <span className="text-indigo-400">✦</span> Authentic Lifestyle Brand
+            </div>
+          </div>
+
+          {/* Right Story Details */}
+          <div className="lg:col-span-7 space-y-6">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-md border border-indigo-100">
+                Our Journey
+              </span>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight mt-3">
+                Clothing Beyond Fashion — It's Identity & Pride
+              </h2>
+            </div>
+
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              We started with a simple vision: clothing can be more than just everyday fashion—it can be a powerful way to express who you are and where you come from. Our apparel is deeply inspired by Kamboj culture, identity, and the timeless pride that connects our community.
+            </p>
+
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              We wanted to create pieces that today’s youth can wear effortlessly every day while carrying an authentic connection to their roots. From meaningful cultural graphic prints to relaxed modern streetwear silhouettes, every garment is tailored for supreme comfort, durability, and bold self-expression.
+            </p>
+
+            {/* Dark Contrast Metrics Card */}
+            <div className="grid grid-cols-3 gap-4 p-6 rounded-2xl bg-slate-950 text-white border border-slate-800 shadow-xl">
+              <div className="border-r border-slate-800 pr-2">
+                <span className="block text-2xl sm:text-3xl font-extrabold text-white">100%</span>
+                <span className="text-xs text-slate-400 font-medium">Pure Cotton</span>
+              </div>
+              <div className="border-r border-slate-800 pr-2">
+                <span className="block text-2xl sm:text-3xl font-extrabold text-indigo-400">10k+</span>
+                <span className="text-xs text-slate-400 font-medium">Community</span>
+              </div>
+              <div>
+                <span className="block text-2xl sm:text-3xl font-extrabold text-amber-400">4.9 ★</span>
+                <span className="text-xs text-slate-400 font-medium">Satisfaction</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Why Choose Us Section - Dark Luxury Cards */}
+        <section className="space-y-8">
+          <div className="text-center sm:text-left">
+            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-md border border-indigo-100">
+              The Brand Advantage
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-3">
+              Why Choose Us <span className="text-slate-300 font-light">___</span>
+            </h2>
+            <p className="text-slate-500 text-sm sm:text-base max-w-2xl mt-1.5">
+              Uncompromising fabric quality, thoughtful designs, and world-class customer fulfillment.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {/* Card 1 */}
+            <div className="p-8 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-xl hover:border-indigo-500/50 hover:shadow-indigo-500/10 transition-all duration-300 group">
+              <div className="w-12 h-12 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-indigo-400 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-200">
+                <FiAward className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2.5">
+                Quality Assurance
+              </h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                We handpick and rigorously test all fabrics for exceptional breathability, softness, durable stitching, and lasting color fastness.
+              </p>
+            </div>
+
+            {/* Card 2 */}
+            <div className="p-8 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-xl hover:border-indigo-500/50 hover:shadow-indigo-500/10 transition-all duration-300 group">
+              <div className="w-12 h-12 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-indigo-400 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-200">
+                <FiTruck className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2.5">
+                Fast & Secure Delivery
+              </h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Seamless doorstep shipping with real-time parcel tracking, safe encrypted transactions, and an easy 7-day return policy.
+              </p>
+            </div>
+
+            {/* Card 3 */}
+            <div className="p-8 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-xl hover:border-indigo-500/50 hover:shadow-indigo-500/10 transition-all duration-300 group">
+              <div className="w-12 h-12 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-indigo-400 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-200">
+                <FiHeadphones className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2.5">
+                Dedicated Support
+              </h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Our support team is always available to assist with order tracking, sizing guidance, and prompt inquiries whenever you need help.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Banner with Rich Dark Background */}
+        <section className="rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-indigo-950 text-white p-8 sm:p-12 md:p-16 relative overflow-hidden shadow-2xl border border-slate-800">
+          <div className="relative z-10 max-w-2xl space-y-4">
+            <span className="text-xs font-semibold tracking-widest text-indigo-400 uppercase">
+              Exclusive Collection
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+              Ready to Upgrade Your Everyday Style?
+            </h2>
+            <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+              Discover our latest catalog of premium tops, t-shirts, jackets, and cultural streetwear essentials.
+            </p>
+            <div className="pt-2">
+              <NavLink
+                to="/collection"
+                className="inline-flex items-center gap-2 bg-indigo-600 text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-indigo-500 transition-all active:scale-[0.99] text-sm shadow-lg shadow-indigo-600/30 cursor-pointer"
+              >
+                <span>Explore Collection</span>
+                <FiArrowRight className="w-4 h-4" />
+              </NavLink>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <Footer />
+    </div>
   );
 };
 

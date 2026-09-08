@@ -19,7 +19,7 @@ const Product = ({ item }) => {
         <div className="text-sm font-medium text-gray-900 truncate">{data.name}</div>
         <div className="mt-2 text-sm text-gray-500 truncate">{data.description}</div>
         <div className="mt-3 flex items-center justify-between">
-          <div className="text-lg font-semibold text-gray-900">{`${data.price}$`}</div>
+          <div className="text-lg font-semibold text-gray-900">{`₹${data.price}`}</div>
         </div>
       </div>
 

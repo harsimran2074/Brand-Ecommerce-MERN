@@ -1,146 +1,319 @@
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import contactImg from "../assets/contact_img.png";
 import Footer from "../components/footer";
-import contact from "../assets/contact_us.jpg";
-import { NavLink } from "react-router-dom";
 import FollowUs from "../components/FollowUs";
+import {
+  FiPhone,
+  FiMail,
+  FiClock,
+  FiSend,
+  FiMessageSquare,
+  FiShield,
+  FiCheckCircle,
+} from "react-icons/fi";
+
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    subject: "General Inquiry",
+    message: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.firstName || !formData.email || !formData.message) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      toast.success("Thank you! Your message has been sent successfully.");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        subject: "General Inquiry",
+        message: "",
+      });
+    }, 400);
+  };
+
   return (
-    <>
-      <div className="container mx-auto">
-        <div className="relative my-10 h-64 md:h-80 lg:h-96 overflow-hidden">
-          <img
-            src={contact}
-            alt="Contact us"
-            className="w-full  h-full object-cover"
-          />
+    <div className="min-h-screen bg-[#f8f9fc] text-slate-800 antialiased font-sans">
+      
+      {/* Dark Contrast Hero Header */}
+      <section className="relative bg-slate-950 text-white py-14 sm:py-18 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {/* Ambient Glow */}
+        <div className="absolute -top-20 -left-20 w-80 h-80 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
 
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black/40"></div>
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300 text-xs font-semibold uppercase tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+            Customer Care & Inquiries
+          </div>
 
-          {/* Heading */}
-          <h1 className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl md:text-5xl font-bold tracking-widest text-white">
-            CONTACT US
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+            CONTACT US <span className="text-indigo-400 font-light">___</span>
           </h1>
 
-          <nav className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center justify-center gap-2 text-sm text-gray-500 mb-2">
-            <NavLink to="/" className="hover:underline text-lg lg:text-2xl ">
-              Home
-            </NavLink>
-            <span className="mx-2 text-gray-400         text-lg lg:text-2xl">
-              /
-            </span>
-            <NavLink
-              to="/Contact"
-              className="text-gray-400  text-lg lg:text-2xl"
-            >
-              Contact
-            </NavLink>
-          </nav>
+          <p className="max-w-xl mx-auto text-sm sm:text-base text-slate-300 leading-relaxed">
+            Have questions about an order, sizing, or styling advice? We are here to assist you at every step.
+          </p>
         </div>
-<div className="ml-5">
-  
-  <h1 className="text-2xl font-bold mb-4 m">Contact Information</h1>
-<div className="flex flex-col md:flex-row gap-4 mb-6">
-  <p className="mb-4">
-    <strong>Address:</strong> 123 Main Street, City, State, Country
-  </p>
-  <p className="mb-4">
-    <strong>Phone:</strong> (123) 456-7890
-    </p>
-  <p className="mb-4">
-    <strong>Email:</strong> <NavLink to="mailto:9z6fQ@example.com">9z6fQ@example.com</NavLink>
-    </p>
-</div>
-</div>
+      </section>
 
-{/* getInTouch */}
-<section className="max-w-3xl mx-auto px-4 py-12">
-  <h2 className="text-3xl font-bold text-gray-900 mb-2">
-    Get in Touch
-  </h2>
+      {/* Main Container */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+        
+        {/* 3 Contact Metric Cards */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          {/* Phone */}
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:border-indigo-200 hover:shadow-sm transition-all duration-200">
+            <div className="w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center mb-4">
+              <FiPhone className="w-5 h-5" />
+            </div>
+            <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide">
+              Direct Phone
+            </h3>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Available Mon - Sat (9am - 8pm IST)
+            </p>
+            <a
+              href="tel:+919416581398"
+              className="inline-block text-base font-bold text-slate-900 hover:text-indigo-600 mt-2 transition"
+            >
+              +91 94165 81398
+            </a>
+          </div>
 
-  <p className="text-gray-600 mb-8">
-    Have a question or need help? We'd love to hear from you.
-  </p>
+          {/* Email */}
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:border-indigo-200 hover:shadow-sm transition-all duration-200">
+            <div className="w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center mb-4">
+              <FiMail className="w-5 h-5" />
+            </div>
+            <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide">
+              Email Support
+            </h3>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Average response time: within 2 hours
+            </p>
+            <a
+              href="mailto:harsimran2074handa@gmail.com"
+              className="inline-block text-sm sm:text-base font-bold text-slate-900 hover:text-indigo-600 mt-2 break-all transition"
+            >
+              harsimran2074handa@gmail.com
+            </a>
+          </div>
 
-  <form className="space-y-6">
+          {/* Support Guarantee */}
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:border-indigo-200 hover:shadow-sm transition-all duration-200">
+            <div className="w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center mb-4">
+              <FiClock className="w-5 h-5" />
+            </div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide">
+                Live Assistance
+              </h3>
+              <span className="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                Active
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Fast resolution for all customer queries
+            </p>
+            <p className="text-sm sm:text-base font-bold text-slate-900 mt-2">
+              24/7 Order Support
+            </p>
+          </div>
 
-    {/* Name */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          First Name
-        </label>
-        <input
-          type="text"
-          placeholder="Enter your first name"
-          className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none focus:border-black"
-        />
-      </div>
+        </section>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Last Name
-        </label>
-        <input
-          type="text"
-          placeholder="Enter your last name"
-          className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none focus:border-black"
-        />
-      </div>
-    </div>
+        {/* 2-Column Split: Form (Left) & Brand Overview (Right) */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Left: Interactive Form (7 cols) */}
+          <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-10">
+            <div className="mb-6">
+              <span className="text-xs font-bold uppercase tracking-wider text-indigo-600">
+                Direct Message
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mt-1">
+                Send Us a Message
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                Fill in the form below and we will get back to you promptly.
+              </p>
+            </div>
 
-    {/* Email */}
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        Email
-      </label>
-      <input
-        type="email"
-        placeholder="Enter your email"
-        className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none focus:border-black"
-      />
-    </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    First Name <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    placeholder="e.g. John"
+                    required
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/40 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 transition"
+                  />
+                </div>
 
-    {/* Subject */}
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        Subject
-      </label>
-      <input
-        type="text"
-        placeholder="What is your message about?"
-        className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none focus:border-black"
-      />
-    </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    placeholder="e.g. Doe"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/40 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 transition"
+                  />
+                </div>
+              </div>
 
-    {/* Message */}
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        Message
-      </label>
-      <textarea
-        rows="6"
-        placeholder="Write your message..."
-        className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none focus:border-black resize-none"
-      ></textarea>
-    </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Email Address <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="name@example.com"
+                  required
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/40 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 transition"
+                />
+              </div>
 
-    {/* Submit */}
-    <button
-      type="submit"
-      className="w-full sm:w-auto px-8 py-3 bg-black text-white rounded-md hover:bg-gray-800 transition"
-    >
-      Send Message
-    </button>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Inquiry Type
+                </label>
+                <select
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/40 text-sm text-slate-900 focus:bg-white focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 transition cursor-pointer"
+                >
+                  <option value="General Inquiry">General Inquiry</option>
+                  <option value="Order Tracking">Order Tracking & Delivery</option>
+                  <option value="Size & Fit">Size & Fit Guidance</option>
+                  <option value="Returns & Exchanges">Returns & Exchanges</option>
+                  <option value="Bulk Order">Bulk / Wholesale Inquiry</option>
+                </select>
+              </div>
 
-  </form>
-</section>
-<FollowUs/>
-      </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Message <span className="text-rose-500">*</span>
+                </label>
+                <textarea
+                  rows="4"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  placeholder="Write your message or order question here..."
+                  required
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/40 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 transition resize-none"
+                />
+              </div>
 
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3.5 px-6 rounded-xl bg-slate-900 hover:bg-black text-white text-sm font-semibold shadow-md active:scale-[0.99] transition duration-150 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
+              >
+                {loading ? (
+                  <div className="h-5 w-5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                ) : (
+                  <>
+                    <span>Send Message</span>
+                    <FiSend className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+
+          {/* Right: Featured Brand Image & Support Commitment (5 cols) */}
+          <div className="lg:col-span-5 space-y-6">
+            
+            {/* Visual Photo Card */}
+            <div className="relative h-64 sm:h-72 rounded-3xl overflow-hidden border border-slate-200 shadow-sm bg-slate-900">
+              <img
+                src={contactImg}
+                alt="Brand Support"
+                className="w-full h-full object-cover object-center opacity-90 hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-6">
+                <div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-400">
+                    Always Here For You
+                  </span>
+                  <p className="text-white text-base font-bold">
+                    Dedicated Support & Seamless Assistance
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Support Commitments Box */}
+            <div className="p-6 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-md space-y-4">
+              <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                <FiShield className="text-indigo-400" />
+                Our Service Promise
+              </h3>
+              
+              <div className="space-y-3 text-xs text-slate-300">
+                <div className="flex items-start gap-2.5">
+                  <FiCheckCircle className="text-emerald-400 w-4 h-4 shrink-0 mt-0.5" />
+                  <span>Prompt resolution for sizing, returns, or order status.</span>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <FiCheckCircle className="text-emerald-400 w-4 h-4 shrink-0 mt-0.5" />
+                  <span>Direct phone & email support from real customer specialists.</span>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <FiCheckCircle className="text-emerald-400 w-4 h-4 shrink-0 mt-0.5" />
+                  <span>100% confidential and encrypted communication.</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* Social Community Section */}
+        <FollowUs />
+
+      </main>
+
+      {/* Footer */}
       <Footer />
-    </>
+    </div>
   );
 };
 
