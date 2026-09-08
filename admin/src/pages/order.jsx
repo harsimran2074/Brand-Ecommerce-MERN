@@ -10,7 +10,7 @@ const Order = ({ token }) => {
     const [orderData, setOrderData] = useState([])
     const [loading, setLoading] = useState(true)
 
-    const authToken = token || localStorage.getItem("token")
+    const authToken = token || localStorage.getItem("adminToken")
 
     // Fetch all orders from backend
     const showOrders = async () => {
@@ -63,7 +63,7 @@ const Order = ({ token }) => {
 
     return (
         <div className="flex flex-col w-full gap-5 sm:gap-6 py-2">
-            
+
             {/* Header section */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 pb-3 border-b border-gray-200">
                 <div>
@@ -155,11 +155,10 @@ const Order = ({ token }) => {
                                 <div>
                                     <span className="text-gray-400 block text-[11px]">Payment Status:</span>
                                     <span
-                                        className={`inline-block px-2 py-0.5 mt-0.5 rounded-md text-[11px] font-semibold ${
-                                            order.payment
+                                        className={`inline-block px-2 py-0.5 mt-0.5 rounded-md text-[11px] font-semibold ${order.payment
                                                 ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
                                                 : "bg-amber-50 text-amber-700 border border-amber-200"
-                                        }`}
+                                            }`}
                                     >
                                         {order.payment ? "Paid" : "Pending"}
                                     </span>

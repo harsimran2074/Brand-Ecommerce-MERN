@@ -13,13 +13,13 @@ import 'react-toastify/dist/ReactToastify.css';
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('token') || "")
+  const [token, setToken] = useState(localStorage.getItem('adminToken') || "")
 
   useEffect(() => {
     if (token) {
-      localStorage.setItem('token', token)
+      localStorage.setItem('adminToken', token)
     } else {
-      localStorage.removeItem('token')
+      localStorage.removeItem('adminToken')
     }
   }, [token])
 
