@@ -4,8 +4,9 @@ import axios from "axios";
 import { toast } from 'react-toastify';
 import { assets } from '../assets/assets.js'
 import Loader from './loader.jsx'
-
+import { useNavigate } from "react-router-dom";
 const Login = ({ setToken }) => {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -18,6 +19,7 @@ const Login = ({ setToken }) => {
       if (response.data.success) {
         setToken(response.data.token)
         toast.success("Login Successful!")
+        navigate("/add")
       } else {
         toast.error(response.data.message)
       }

@@ -2,6 +2,7 @@ import React from 'react'
 import { assets } from '../assets/assets'
 
 const Navbar = ({ setToken }) => {
+
     return (
         <header className="sticky top-0 z-50  h-24 flex items-center justify-between py-3 px-[4%] sm:px-[5%] bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-xs">
             {/* Brand Logo & Admin Badge */}
