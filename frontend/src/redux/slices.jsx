@@ -287,18 +287,14 @@ export const bagItemSlice = createSlice({
          .addCase(getCart.pending, (state) => {
             state.loading = true;
             state.error = null;
-            console.log("fetching")
          })
          .addCase(getCart.fulfilled, (state, action) => {
             state.loading = false;
             state.cartData = action.payload?.cartData || {};
-            console.log("cart data at get", state.cartData);
          })
          .addCase(getCart.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
-            console.log("rejected");
-
          });
    },
 });

@@ -40,8 +40,6 @@ exports.loginUser = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
-
         return res.status(500).json({
             success: false,
             msg: "Internal server error"
@@ -82,7 +80,6 @@ exports.registerUser = async (req, res) => {
         res.json({ success: true, msg: "user registered successfully", token });
     }
     catch (error) {
-        console.log(error);
         res.json({ success: false, msg: "error " })
     }
 

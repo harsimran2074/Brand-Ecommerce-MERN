@@ -21,11 +21,11 @@ const Login = ({ setToken }) => {
         toast.success("Login Successful!")
         navigate("/add")
       } else {
-        toast.error(response.data.message)
+        toast.error(response.data.msg || response.data.message || "Invalid email or password")
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.response?.data?.message || error.message || "Something went wrong");
+      console.error("[Admin Login Error]:", error.response?.data?.msg || error.message);
+      toast.error(error.response?.data?.msg || error.response?.data?.message || error.message || "Something went wrong");
     } finally {
       setLoading(false)
     }

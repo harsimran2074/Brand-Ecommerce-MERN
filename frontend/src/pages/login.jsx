@@ -37,8 +37,8 @@ const Login = ({ setToken }) => {
         setLoading(false)
       }
     } catch (err) {
+      console.error("[Login Page - User Login Error]:", err.response?.data?.msg || err.message);
       setLoading(false)
-      console.log(err)
       toast.error(err.response?.data?.msg || err.message)
     } finally {
       setLoading(false)

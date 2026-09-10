@@ -29,7 +29,7 @@ const List = ({ token }) => {
                 setList(response.data.products)
             }
         } catch (error) {
-            console.log(error)
+            console.error("[Admin List - Fetch Products Error]:", error.message);
             toast.error(error.message)
         } finally {
             setLoading(false)
@@ -49,7 +49,6 @@ const List = ({ token }) => {
                 {},
                 { headers: { token } }
             )
-            console.log(response)
             if (response.data.success) {
                 toast.success(response.data.msg)
                 await productList()
@@ -58,7 +57,7 @@ const List = ({ token }) => {
                 toast.error(response.data.msg)
             }
         } catch (error) {
-            console.log(error)
+            console.error("[Admin List - Delete Product Error]:", error.message);
             toast.error(error.message)
         }
     }

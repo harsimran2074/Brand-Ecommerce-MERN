@@ -97,20 +97,17 @@ const PlaceOrder = () => {
             toast.error(data.message || "Payment verification failed");
           }
         } catch (error) {
-          console.log(error);
+          console.error("[PlaceOrder - Razorpay Verification Error]:", error.message);
           toast.error(error.message);
         }
       },
     };
-    console.log("Razorpay key used:", key);
     const rzp = new window.Razorpay(options);
     rzp.open();
   };
 
   // Handle form submission / action
   const handleSubmit = async (event) => {
-    console.log("place order clicked");
-
     event.preventDefault();
     try {
       if (orderItems.length === 0) {
@@ -133,7 +130,6 @@ const PlaceOrder = () => {
           );
           if (response.data.success) {
             dispatch(clearCart());
-            console.log(response);
             toast.success("Order placed successfully");
             navigate("/order");
           } else {
@@ -151,8 +147,6 @@ const PlaceOrder = () => {
           if (responseRazorpay.data.success) {
             initPay(responseRazorpay.data.order, responseRazorpay.data.key);
           } else {
-            console.log(responseRazorpay);
-            console.log(responseRazorpay.data.message)
             const errorMsg =
               typeof responseRazorpay.data.message === "string"
                 ? responseRazorpay.data.message
@@ -168,7 +162,7 @@ const PlaceOrder = () => {
           break;
       }
     } catch (error) {
-      console.log(error);
+      console.error("[PlaceOrder - Order Placement Error]:", error.message);
       toast.error(error.message);
     }
   };
@@ -426,7 +420,7 @@ const PlaceOrder = () => {
                 </label>
 
                 {/* Cash on Delivery Option */}
-                <label
+                {/* <label
                   onClick={() => setPaymentMethod("cod")}
                   className={`group relative flex cursor-pointer items-center justify-between rounded-xl border p-4 transition-all duration-200 ${paymentMethod === "cod"
                     ? "border-slate-900 bg-slate-50/60 shadow-sm ring-1 ring-slate-900"
@@ -435,7 +429,7 @@ const PlaceOrder = () => {
                 >
                   <div className="flex items-center gap-3.5">
                     {/* Custom Radio Button */}
-                    <div
+                {/* <div
                       className={`flex h-4.5 w-4.5 items-center justify-center rounded-full border transition-all ${paymentMethod === "cod"
                         ? "border-slate-900 bg-slate-900"
                         : "border-slate-300 group-hover:border-slate-400"
@@ -471,7 +465,7 @@ const PlaceOrder = () => {
                       />
                     </svg>
                   </div>
-                </label>
+                </label>  */}
 
               </div>
             </div>

@@ -50,16 +50,11 @@ const Add = ({ token }) => {
         image4 && formData.append("image4", image4)
 
 
-        for (const [key, value] of formData.entries()) {
-            console.log(key, value);
-        }
-
         try {
             setLoading(true)
             const response = await axios.post(backendUrl + "/api/product/add", formData, { headers: { token } })
-            console.log(response);
             if (!response.data.success) {
-                toast.error('Failed to add product' + response.data.message)
+                toast.error('Failed to add product' + (response.data.msg || response.data.message || ''))
             }
             else {
                 toast.success('Product Added Successfully')
@@ -77,7 +72,7 @@ const Add = ({ token }) => {
             }
         }
         catch (error) {
-            console.log(error.response);
+            console.error("[Admin Add Product Error]:", error.response?.data?.msg || error.response?.data?.message || error.message);
             toast.error(error.response?.data?.message || error.message || 'Failed to add product')
         } finally {
             setLoading(false)

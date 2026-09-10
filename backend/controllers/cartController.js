@@ -13,7 +13,7 @@ exports.getCart = async (req, res) => {
     const cartData = userData.cartData || {};
     res.json({ success: true, cartData });
   } catch (error) {
-    console.log(error);
+    console.error("[CartController - Get Cart Error]:", error.message);
     res.json({ success: false, message: "Error fetching cart" });
   }
 };
@@ -49,7 +49,7 @@ exports.addCart = async (req, res) => {
       cartData
     });
   } catch (error) {
-    console.log(error);
+    console.error("[CartController - Add Cart Error]:", error.message);
     res.json({
       success: false,
       message: "Error adding to cart"
@@ -86,7 +86,7 @@ exports.updateCart = async (req, res) => {
     await userModel.findByIdAndUpdate(userId, { cartData });
     res.json({ success: true, msg: "Item updated in cart", cartData });
   } catch (error) {
-    console.log(error);
+    console.error("[CartController - Update Cart Error]:", error.message);
     res.json({ success: false, message: "Error updating cart" });
   }
 };
@@ -118,7 +118,7 @@ exports.removeCart = async (req, res) => {
     await userModel.findByIdAndUpdate(userId, { cartData });
     res.json({ success: true, msg: "Item removed from cart", cartData });
   } catch (error) {
-    console.log(error);
+    console.error("[CartController - Remove Cart Error]:", error.message);
     res.json({ success: false, message: "Error removing from cart" });
   }
 };

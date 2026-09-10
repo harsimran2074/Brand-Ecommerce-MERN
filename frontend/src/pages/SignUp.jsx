@@ -36,7 +36,7 @@ const SignUp = ({ setToken }) => {
         toast.error(response.data.msg)
       }
     } catch (err) {
-      console.log(err)
+      console.error("[SignUp Page - User Registration Error]:", err.response?.data?.msg || err.message);
       setLoading(false)
       toast.error(err.response?.data?.msg || err.message)
     } finally {

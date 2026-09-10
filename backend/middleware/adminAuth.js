@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 
 const adminAuth = (req, res, next) => {
     const { token } = req.headers
-    console.log(token);
     if (!token) {
         return res.json({ success: false, msg: "Invalid credentials"  })
     }

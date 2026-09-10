@@ -16,7 +16,7 @@ orderRouter.post('/razorpay', authUser, placeOrderRazorpay)
 // User Feature 
 orderRouter.get('/userOrders', authUser, userOrders)
 
-// verify payment
+// verify paymentt
 orderRouter.post('/verifyRazorpay', authUser, verifyRazorpay)
 
 module.exports = orderRouter

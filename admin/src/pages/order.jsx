@@ -29,7 +29,7 @@ const Order = ({ token }) => {
                 toast.error(res.data.message)
             }
         } catch (err) {
-            console.log(err)
+            console.error("[Admin Orders - Fetch Orders Error]:", err.message);
             toast.error(err.message)
         } finally {
             setLoading(false)
@@ -52,7 +52,7 @@ const Order = ({ token }) => {
                 toast.error(res.data.message)
             }
         } catch (err) {
-            console.log(err)
+            console.error("[Admin Orders - Update Status Error]:", err.message);
             toast.error(err.message)
         }
     }
@@ -156,8 +156,8 @@ const Order = ({ token }) => {
                                     <span className="text-gray-400 block text-[11px]">Payment Status:</span>
                                     <span
                                         className={`inline-block px-2 py-0.5 mt-0.5 rounded-md text-[11px] font-semibold ${order.payment
-                                                ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                                                : "bg-amber-50 text-amber-700 border border-amber-200"
+                                            ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                                            : "bg-amber-50 text-amber-700 border border-amber-200"
                                             }`}
                                     >
                                         {order.payment ? "Paid" : "Pending"}

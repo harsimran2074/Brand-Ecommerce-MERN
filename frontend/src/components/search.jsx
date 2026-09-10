@@ -3,14 +3,6 @@ import search_img from '../assets/search_icon.png'
 import { useRef } from 'react'
 const Search = ({ setSearch }) => {
 
-  //    const inputeRef = useRef("");
-
-  // const search = () => {
-  //    setSearch(inputeRef.current.value);
-  //    console.log(inputeRef.current.value);
-  // }
-
-
   return (
     <>
       <div className='flex justify-center mx-5 mt-3'>

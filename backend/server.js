@@ -1,4 +1,6 @@
 require('dotenv').config();
+const dns = require('dns');
+try { dns.setDefaultResultOrder('ipv4first'); } catch (e) {}
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -7,6 +9,7 @@ const authRouter = require("./routes/userRoutes");
 const productRouter = require("./routes/productRoutes");
 const cartRouter = require("./routes/cartRoutes");
 const orderRouter = require("./routes/orderRoutes");
+const contactRouter = require("./routes/contactRoutes");
 const app = express();
 
 // middlewares
@@ -18,9 +21,10 @@ connectCloudinary();
 
 //auth endpoints
 app.use('/api/auth', authRouter);
-app.use('/api/product', productRouter)
-app.use('/api/cart', cartRouter)
-app.use('/api/order', orderRouter)
+app.use('/api/product', productRouter);
+app.use('/api/cart', cartRouter);
+app.use('/api/order', orderRouter);
+app.use('/api/contact', contactRouter);
 app.get('/', (req, res) => {
     res.send("Server is working");
 });
@@ -36,8 +40,6 @@ mongoose.connect(process.env.MONGODB_URL)
         });
     })
     .catch((err) => {
-        console.log("database not connected", err);
-    });
-
-
-
+        console.error("[Database Connection Error]:", err.message);
+    });// Server initialization
+app.listen;

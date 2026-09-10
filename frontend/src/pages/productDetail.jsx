@@ -46,7 +46,7 @@ const ProductDetail = () => {
         navigate("/Cart");
       })
     } catch (error) {
-      console.log("cart not added at product detail:", error);
+      console.error("[ProductDetail - Add To Cart Error]:", error.message || error);
       navigate("/SignUp");
     }
   };

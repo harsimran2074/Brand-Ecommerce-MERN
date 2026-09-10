@@ -81,7 +81,6 @@ const AllCollection = () => {
     //search filer
 
     if (search) {
-      console.log(search);
       productCopy = productCopy.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
     }
 

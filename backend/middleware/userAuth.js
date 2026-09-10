@@ -14,7 +14,6 @@ const userAuth = (req, res, next) => {
         req.userId = verified.id;
         next();
     } catch (error) {
-        console.log("error at userAuth" ,error);
         res.json({ success: false, msg: "Invalid credentials" })
     }
 

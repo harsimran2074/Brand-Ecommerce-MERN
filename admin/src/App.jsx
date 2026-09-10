@@ -13,7 +13,14 @@ import 'react-toastify/dist/ReactToastify.css';
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('adminToken') || "")
+  const forceLogin = new URLSearchParams(window.location.search).get('login') === 'true'
+  const [token, setToken] = useState(forceLogin ? "" : localStorage.getItem('adminToken') || "")
+
+  useEffect(() => {
+    if (forceLogin) {
+      localStorage.removeItem('adminToken')
+    }
+  }, [forceLogin])
 
   useEffect(() => {
     if (token) {

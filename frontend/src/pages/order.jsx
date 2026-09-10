@@ -29,10 +29,10 @@ const Orders = () => {
         setOrderItems(allOrdersItem.reverse())
       }
     } catch (error) {
-      console.log(error)
+      console.error("[Orders Page - Fetch User Orders Error]:", error.message);
     }
   }
-  console.log(orderItems)
+
   useEffect(() => {
     getOrders()
   }, [])

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { toast } from "react-toastify";
 import contactImg from "../assets/contact_img.png";
 import Footer from "../components/footer";
@@ -29,30 +30,40 @@ const Contact = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.firstName || !formData.email || !formData.message) {
       toast.error("Please fill in all required fields.");
       return;
     }
 
-    setLoading(true);
-    setTimeout(() => {
+    try {
+      setLoading(true);
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5001";
+      const response = await axios.post(`${backendUrl}/api/contact/send`, formData);
+
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          subject: "General Inquiry",
+          message: "",
+        });
+      } else {
+        toast.error(response.data.message || "Failed to send message");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message || "Something went wrong");
+    } finally {
       setLoading(false);
-      toast.success("Thank you! Your message has been sent successfully.");
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        subject: "General Inquiry",
-        message: "",
-      });
-    }, 400);
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#f8f9fc] text-slate-800 antialiased font-sans">
-      
+
       {/* Dark Contrast Hero Header */}
       <section className="relative bg-slate-950 text-white py-14 sm:py-18 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Ambient Glow */}
@@ -77,11 +88,11 @@ const Contact = () => {
 
       {/* Main Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-        
+
         {/* 3 Contact Metric Cards */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          {/* Phone */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          {/* Phone
           <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:border-indigo-200 hover:shadow-sm transition-all duration-200">
             <div className="w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center mb-4">
               <FiPhone className="w-5 h-5" />
@@ -98,7 +109,7 @@ const Contact = () => {
             >
               +91 94165 81398
             </a>
-          </div>
+          </div> */}
 
           {/* Email */}
           <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:border-indigo-200 hover:shadow-sm transition-all duration-200">
@@ -144,7 +155,7 @@ const Contact = () => {
 
         {/* 2-Column Split: Form (Left) & Brand Overview (Right) */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
+
           {/* Left: Interactive Form (7 cols) */}
           <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-10">
             <div className="mb-6">
@@ -160,7 +171,7 @@ const Contact = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
@@ -259,7 +270,7 @@ const Contact = () => {
 
           {/* Right: Featured Brand Image & Support Commitment (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
-            
+
             {/* Visual Photo Card */}
             <div className="relative h-64 sm:h-72 rounded-3xl overflow-hidden border border-slate-200 shadow-sm bg-slate-900">
               <img
@@ -285,7 +296,7 @@ const Contact = () => {
                 <FiShield className="text-indigo-400" />
                 Our Service Promise
               </h3>
-              
+
               <div className="space-y-3 text-xs text-slate-300">
                 <div className="flex items-start gap-2.5">
                   <FiCheckCircle className="text-emerald-400 w-4 h-4 shrink-0 mt-0.5" />

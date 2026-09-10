@@ -3,10 +3,7 @@ const productModel = require("../models/productModel");
 
 //add product
 exports.addProduct = async (req, res) => {
-    console.log("addProduct begins.....");
     try {
-        console.log("--- addProduct API hit ---");
-
         const { name, description, price, category, subcategory, bestSeller, sizes } = req.body;
 
         const image1 = req.files?.image1 ? req.files.image1[0] : undefined;
@@ -16,7 +13,6 @@ exports.addProduct = async (req, res) => {
 
         const images = [image1, image2, image3, image4];
         const filteredImages = images.filter((item) => (item !== undefined));
-        console.log("filterred Images:", filteredImages);
 
         // saving images in cloudinary
         let imagesUrl = await Promise.all(
@@ -50,11 +46,10 @@ exports.addProduct = async (req, res) => {
             bestSeller: bestSeller === "true" || bestSeller === true ? true : false,
             sizes: parsedSizes
         });
-        console.log(product);
         await product.save();
         res.json({ success: true, msg: "Product added successfully", product });
     } catch (error) {
-        console.error("Error in addProduct:", error);
+        console.error("[ProductController - Add Product Error]:", error.message);
         res.status(500).json({ success: false, msg: `${error.message}end error` });
     }
 }
@@ -65,7 +60,7 @@ exports.getAllProducts = async (req, res) => {
         const products = await productModel.find({});
         res.json({ success: true, msg: "Products fetched successfully", products });
     } catch (error) {
-        console.log(error);
+        console.error("[ProductController - Get All Products Error]:", error.message);
         res.json({ success: false, msg: "product not fetched" })
     }
 }
@@ -80,7 +75,7 @@ exports.deleteProduct = async (req, res) => {
         }
         res.json({ success: true, msg: "Product deleted successfully" });
     } catch (error) {
-        console.log(error);
+        console.error("[ProductController - Delete Product Error]:", error.message);
         res.json({ success: false, msg: "product not deleted" })
     }
 }
@@ -99,7 +94,7 @@ exports.updateProduct = async (req, res) => {
         }
         res.json({ success: true, msg: "Product updated successfully" });
     } catch (error) {
-        console.log(error);
+        console.error("[ProductController - Update Product Error]:", error.message);
         res.json({ success: false, msg: "product not updated" })
     }
 }
@@ -114,7 +109,7 @@ exports.getSingleProduct = async (req, res) => {
         }
         res.json({ success: true, msg: "Product fetched successfully", product });
     } catch (error) {
-        console.log(error);
+        console.error("[ProductController - Get Single Product Error]:", error.message);
         res.json({ success: false, msg: "product not fetched" })
     }
 }

@@ -16,11 +16,10 @@ exports.allOrders = async (req, res) => {
         if (!allorders) {
             res.json({ success: false, message: "No orders found" })
         }
-        console.log("all orders", allorders)
         res.json({ success: true, allorders })
     }
     catch (error) {
-        console.log(error)
+        console.error("[OrderController - All Orders Error]:", error.message);
         res.json({ success: false, message: error.message })
     }
 }
@@ -32,7 +31,7 @@ exports.updateStatus = async (req, res) => {
         res.json({ success: true, message: "Status updated successfully" });
     }
     catch (error) {
-        console.log(error);
+        console.error("[OrderController - Update Status Error]:", error.message);
         res.json({ success: false, message: error.message });
     }
 }
@@ -51,7 +50,6 @@ exports.placeOrder = async (req, res) => {
             payment: false,
             date: Date.now()
         }
-        console.log(orderData);
         const newOrder = new orderModel(orderData);
         await newOrder.save();
 
@@ -61,7 +59,7 @@ exports.placeOrder = async (req, res) => {
 
     }
     catch (error) {
-        console.log(error)
+        console.error("[OrderController - Place Order COD Error]:", error.message);
         res.json({ success: false, message: error.message })
     }
 }
@@ -75,11 +73,10 @@ exports.userOrders = async (req, res) => {
         const userId = req.userId
 
         const orders = await orderModel.find({ userId })
-        console.log(orders);
         res.json({ success: true, orders })
 
     } catch (error) {
-        console.log(error)
+        console.error("[OrderController - User Orders Error]:", error.message);
         res.json({ success: false, message: error.message })
     }
 }
@@ -99,7 +96,7 @@ exports.verifyRazorpay = async (req, res) => {
         }
     }
     catch (error) {
-        console.log(error);
+        console.error("[OrderController - Verify Razorpay Error]:", error.message);
         res.json({ success: false, message: error.message });
     }
 }
@@ -131,10 +128,8 @@ exports.placeOrderRazorpay = async (req, res) => {
         }
 
         await razorpayInstance.orders.create(options, (error, order) => {
-            console.log("KEY ID:", process.env.RAZORPAY_KEY_ID);
-            console.log("SECRET EXISTS:", !!process.env.RAZORPAY_KEY_SECRET);
             if (error) {
-                console.log(error)
+                console.error("[OrderController - Razorpay Order Creation Callback Error]:", error.description || error.message || error);
                 return res.json({
                     success: false,
                     message: error.description || error.error?.description || "Razorpay order creation failed"
@@ -144,7 +139,7 @@ exports.placeOrderRazorpay = async (req, res) => {
         })
 
     } catch (error) {
-        console.log(error)
+        console.error("[OrderController - Razorpay Order Placement Error]:", error.message);
         res.json({ success: false, message: error.message })
     }
 }
