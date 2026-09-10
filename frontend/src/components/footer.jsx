@@ -5,8 +5,11 @@ import { FiPhone, FiMail, FiArrowRight, FiShield } from 'react-icons/fi'
 import { FaInstagram, FaFacebookF, FaTwitter } from 'react-icons/fa'
 
 const Footer = () => {
-   const backendUrl = import.meta.env.VITE_ADMIN_URL || "http://localhost:5173";
-   const adminUrl = backendUrl + "/admin?login=true";
+   const configuredAdminUrl = import.meta.env.VITE_ADMIN_URL || "http://localhost:5173";
+   const ADMINUrl = /^https?:\/\//i.test(configuredAdminUrl)
+      ? configuredAdminUrl
+      : `https://${configuredAdminUrl}`;
+   const adminUrl = `${ADMINUrl.replace(/\/$/, '')}/?login=true`;
    return (
       <footer className="bg-slate-100 border-t border-slate-300/80 text-slate-900 font-sans">
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8">

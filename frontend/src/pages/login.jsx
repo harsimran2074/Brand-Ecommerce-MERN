@@ -49,10 +49,10 @@ const Login = ({ setToken }) => {
     <div className="min-h-screen bg-[#f3f4f8] flex flex-col justify-between">
       <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-10 my-4">
         <div className="w-full max-w-4xl bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden grid grid-cols-1 md:grid-cols-2">
-          
+
           {/* Left Column: Form Container */}
           <div className="p-8 sm:p-10 lg:p-12 flex flex-col justify-center">
-            
+
             {/* Brand Logo */}
             <div className="mb-6">
               <img src={assets.logo} alt="Logo" className="w-28 object-contain" />
@@ -69,7 +69,7 @@ const Login = ({ setToken }) => {
             </div>
 
             <form onSubmit={onSubmitHandler} className="space-y-4">
-              
+
               {/* Email */}
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1.5">
