@@ -1,23 +1,38 @@
-import React from 'react'
+
+
+import React from "react";
 
 const Title = () => {
   return (
-    <div>
-      <div className="flex flex-row sm:flex-row items-center justify-center mt-10 sm:mt-16 md:mt-20 gap-1 sm:gap-4 text-center">
-        <span className="text-3xl sm:text-4xl md:text-5xl text-gray-600">
-          BEST{" "}
-        </span>
-        <span className="text-3xl sm:text-4xl md:text-5xl">
-          SELLERS___
-        </span>
+    <section className="w-full px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col items-center justify-center mt-14 sm:mt-20 md:mt-24">
+        {/* Heading */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          <span className="text-sm sm:text-base md:text-lg tracking-[0.25em] text-gray-500">
+            OUR
+          </span>
+
+          <span className="h-px w-8 sm:w-12 bg-gray-400" />
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-gray-900">
+            BEST SELLERS
+          </h2>
+
+          <span className="h-px w-8 sm:w-12 bg-gray-400" />
+        </div>
+
+        {/* Description */}
+        <p className="mt-5 max-w-2xl text-center text-sm sm:text-base leading-6 sm:leading-7 text-gray-500">
+          Discover the pieces our customers love the most — thoughtfully
+          selected for quality, style, and everyday wear.
+        </p>
+
+        {/* Decorative line */}
+        <div className="mt-6 h-1 w-10 rounded-full bg-gray-900" />
       </div>
+    </section>
+  );
+};
 
-      <p className="text-sm sm:text-xl md:text-xl lg:text-lg text-gray-600 mx-auto max-w-5xl px-3 sm:px-6 md:px-10 lg:px-20 text-center mt-4">
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the.
-      </p>
-    </div>
-  )
-}
+export default Title;
 
-export default Title
