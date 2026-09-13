@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchProducts, getCart } from "./redux/slices.jsx";
 import { useState } from 'react'
+import { Analytics } from '@vercel/analytics/react';
 function App() {
   // const [token, setToken] = useState();
   // const dispatch = useDispatch();
@@ -63,6 +64,7 @@ function App() {
         <Route path='/place-order' element={<PlaceOrder />} />
         <Route path='/order' element={<Orders />} />
       </Routes>
+      <Analytics />
     </>
   )
 }
