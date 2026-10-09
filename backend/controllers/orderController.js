@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const userModel = require("../models/userModel");
 const orderModel = require("../models/orderModel");
 const razorpay = require("razorpay");
@@ -83,21 +84,31 @@ exports.userOrders = async (req, res) => {
 
 exports.verifyRazorpay = async (req, res) => {
     try {
-        const { razorpay_order_id } = req.body;
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
         const userId = req.userId;
 
-        const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id);
-        if (orderInfo.status === 'paid') {
-            await orderModel.findByIdAndUpdate(orderInfo.receipt, { payment: true });
-            await userModel.findByIdAndUpdate(userId, { cartData: {} });
-            res.json({ success: true, message: "Payment Successful" });
-        } else {
-            res.json({ success: false, message: "Payment Failed" });
+        if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+            return res.status(400).json({ success: false, message: "Missing payment verification fields" });
         }
+
+        const body = razorpay_order_id + "|" + razorpay_payment_id;
+        const expectedSignature = crypto
+            .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+            .update(body)
+            .digest("hex");
+
+        if (expectedSignature !== razorpay_signature) {
+            return res.status(400).json({ success: false, message: "Payment signature mismatch" });
+        }
+
+        const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id);
+        await orderModel.findByIdAndUpdate(orderInfo.receipt, { payment: true });
+        await userModel.findByIdAndUpdate(userId, { cartData: {} });
+        res.json({ success: true, message: "Payment Successful" });
     }
     catch (error) {
         console.error("[OrderController - Verify Razorpay Error]:", error.message);
-        res.json({ success: false, message: error.message });
+        res.status(500).json({ success: false, message: error.message });
     }
 }
 
@@ -108,6 +119,12 @@ exports.placeOrderRazorpay = async (req, res) => {
 
         const { items, amount, address } = req.body
         const userId = req.userId
+        const amountInPaise = Math.round(Number(amount) * 100)
+
+        if (!amountInPaise || amountInPaise < 100) {
+            return res.status(400).json({ success: false, message: "Minimum payment amount is 100 paise" })
+        }
+
         const orderData = {
             userId,
             items,
@@ -122,7 +139,7 @@ exports.placeOrderRazorpay = async (req, res) => {
         await newOrder.save()
 
         const options = {
-            amount: amount * 100,
+            amount: amountInPaise,
             currency: currency.toUpperCase(),
             receipt: newOrder._id.toString()
         }
@@ -130,7 +147,8 @@ exports.placeOrderRazorpay = async (req, res) => {
         await razorpayInstance.orders.create(options, (error, order) => {
             if (error) {
                 console.error("[OrderController - Razorpay Order Creation Callback Error]:", error.description || error.message || error);
-                return res.json({
+                const statusCode = error.statusCode === 401 ? 401 : 500
+                return res.status(statusCode).json({
                     success: false,
                     message: error.description || error.error?.description || "Razorpay order creation failed"
                 })

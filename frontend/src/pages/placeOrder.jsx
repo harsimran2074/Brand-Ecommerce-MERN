@@ -46,7 +46,7 @@ const PlaceOrder = () => {
             itemInfo.quantity = cartItems[itemId][size];
 
             //extracting image from product
-            const productImages = product?.images || product?.image || data?.images || data?.image;
+            const productImages = product?.images || product?.image;
             const imageSrc = Array.isArray(productImages) ? productImages[0] : productImages;
 
             itemInfo.image = imageSrc;
@@ -86,7 +86,11 @@ const PlaceOrder = () => {
         try {
           const { data } = await axios.post(
             backendUrl + "/api/order/verifyRazorpay",
-            response,
+            {
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
+            },
             { headers: { token } }
           );
           if (data.success) {
@@ -98,11 +102,19 @@ const PlaceOrder = () => {
           }
         } catch (error) {
           console.error("[PlaceOrder - Razorpay Verification Error]:", error.message);
-          toast.error(error.message);
+          toast.error(error.response?.data?.message || error.message);
         }
+      },
+      modal: {
+        ondismiss: () => {
+          toast.info("Payment cancelled");
+        },
       },
     };
     const rzp = new window.Razorpay(options);
+    rzp.on("payment.failed", (response) => {
+      toast.error(response.error?.description || "Payment failed");
+    });
     rzp.open();
   };
 

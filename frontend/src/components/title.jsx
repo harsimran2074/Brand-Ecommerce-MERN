@@ -8,7 +8,7 @@ const Title = () => {
       <div className="flex flex-col items-center justify-center mt-14 sm:mt-20 md:mt-24">
         {/* Heading */}
         <div className="flex items-center gap-3 sm:gap-4">
-          <span className="text-sm sm:text-base md:text-lg tracking-[0.25em] text-gray-500">
+          <span className="text-base sm:text-lg md:text-xl tracking-[0.25em] font-semibold text-gray-800">
             OUR
           </span>
 
@@ -22,7 +22,7 @@ const Title = () => {
         </div>
 
         {/* Description */}
-        <p className="mt-5 max-w-2xl text-center text-sm sm:text-base leading-6 sm:leading-7 text-gray-500">
+        <p className="mt-5 max-w-2xl text-center text-base sm:text-lg md:text-xl leading-7 sm:leading-8 font-medium text-gray-800">
           Discover the pieces our customers love the most — thoughtfully
           selected for quality, style, and everyday wear.
         </p>
