@@ -1,4 +1,5 @@
 const userModel = require('../models/userModel');
+const orderModel = require('../models/orderModel');
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -97,5 +98,29 @@ exports.loginAdmin = async (req, res) => {
     } else {
         res.json({ success: false, msg: "invalid credentials" })
     }
+};
 
-}
+// Get all registered users and summary counts for admin
+exports.getAdminUsers = async (req, res) => {
+    try {
+        const users = await userModel.find({}, '_id name email').sort({ _id: -1 });
+        const paidOrdersCount = await orderModel.countDocuments({ payment: true });
+
+        const formattedUsers = users.map((user) => ({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            createdAt: user._id?.getTimestamp ? user._id.getTimestamp() : null
+        }));
+
+        res.json({
+            success: true,
+            users: formattedUsers,
+            totalUsers: formattedUsers.length,
+            paidOrdersCount
+        });
+    } catch (error) {
+        console.error("[UserController - Get Admin Users Error]:", error.message);
+        res.status(500).json({ success: false, message: error.message, msg: error.message });
+    }
+};

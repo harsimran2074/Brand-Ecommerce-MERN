@@ -1,9 +1,8 @@
-import React from "react";
-import { useSelector } from "react-redux";
 import Footer from "../components/footer";
 // import { useMemo } from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const Orders = () => {
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -19,6 +18,7 @@ const Orders = () => {
         let allOrdersItem = []
         response.data.orders.map((order) => {
           order.items.map((item) => {
+            item['orderId'] = order._id
             item['status'] = order.status
             item['payment'] = order.payment
             item['paymentMethod'] = order.paymentMethod
@@ -82,20 +82,26 @@ const Orders = () => {
 
                 {/* Status & Track Order Button */}
                 <div className="md:w-1/2 flex justify-between items-center">
-                  <div className="flex items-center gap-2">
-                    <p className="min-w-2 h-2 rounded-full bg-green-500"></p>
-                    <p className="text-sm md:text-base text-gray-600">
-                      {item.status}
-                    </p>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className={`min-w-2 h-2 rounded-full ${item.payment === true ? "bg-green-500" : "bg-amber-500"}`}></p>
+                      <p className="text-sm md:text-base text-gray-600">
+                        {item.payment === true ? "Paid / Order Confirmed" : "Payment Pending"}
+                      </p>
+                    </div>
+                    {item.payment === false && (
+                      <p className="mt-1 text-xs text-gray-500">
+                        Complete payment to confirm your order.
+                      </p>
+                    )}
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => { }}
+                  <Link
+                    to={`/trackOrder?orderId=${encodeURIComponent(item.orderId)}`}
                     className="border border-gray-300 px-4 py-2 text-sm font-medium rounded-sm text-gray-700 hover:bg-black hover:text-white transition cursor-pointer"
                   >
                     Track Order
-                  </button>
+                  </Link>
                 </div>
               </div>
             );

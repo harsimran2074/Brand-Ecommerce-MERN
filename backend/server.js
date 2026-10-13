@@ -21,6 +21,7 @@ connectCloudinary();
 
 //auth endpoints
 app.use('/api/auth', authRouter);
+app.use('/api/user', authRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/order', orderRouter);

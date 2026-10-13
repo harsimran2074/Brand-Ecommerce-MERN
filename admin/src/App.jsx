@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Add from './pages/add.jsx'
 import List from './pages/list.jsx'
 import Order from './pages/order.jsx'
+import Users from './pages/users.jsx'
 import Login from './components/login.jsx'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -50,6 +51,7 @@ function App() {
                 <Route path='/add' element={<Add token={token} />} />
                 <Route path='/list' element={<List token={token} />} />
                 <Route path='/order' element={<Order token={token} />} />
+                <Route path='/users' element={<Users token={token} />} />
                 <Route path='*' element={<Navigate to="/add" replace />} />
               </Routes>
             </div>

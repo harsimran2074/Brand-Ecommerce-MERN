@@ -2,6 +2,7 @@ import React from 'react'
 import add from '../assets/add_icon.png'
 import list from '../assets/order_icon.png'
 import { NavLink } from 'react-router-dom'
+import { FiUsers } from 'react-icons/fi'
 
 const SideBar = () => {
     return (
@@ -47,6 +48,20 @@ const SideBar = () => {
                 >
                     <img src={list} alt="orders" className="w-5 h-5" />
                     <p className="hidden md:block">Orders</p>
+                </NavLink>
+
+                <NavLink 
+                    to="/users" 
+                    className={({ isActive }) => 
+                        `flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-l-md transition-all duration-200 cursor-pointer ${
+                            isActive 
+                                ? 'bg-purple-50 border-purple-500 text-purple-700 font-semibold' 
+                                : 'text-gray-600 hover:bg-gray-50 border-gray-200'
+                        }`
+                    }
+                >
+                    <FiUsers className="w-5 h-5 text-current shrink-0" />
+                    <p className="hidden md:block">Users</p>
                 </NavLink>
             </div>
         </div>

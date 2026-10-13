@@ -10,6 +10,7 @@ import ProductDetail from './pages/productDetail.jsx'
 import Login from './pages/login.jsx'
 import PlaceOrder from './pages/placeOrder.jsx'
 import Orders from './pages/order.jsx'
+import TrackOrder from './pages/trackOrder.jsx'
 import SignUp from './pages/SignUp.jsx'
 import Search from './components/search.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
@@ -62,6 +63,7 @@ function App() {
         <Route path='/SignUp' element={<SignUp setToken={setToken} />} />
         <Route path='/place-order' element={<PlaceOrder />} />
         <Route path='/order' element={<Orders />} />
+        <Route path='/trackOrder' element={<TrackOrder />} />
       </Routes>
     </>
   )
