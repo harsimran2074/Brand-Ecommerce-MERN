@@ -31,6 +31,7 @@ const Login = ({ setToken }) => {
         toast.success(response.data.msg)
         setToken(response.data.token)
         localStorage.setItem('token', response.data.token)
+        localStorage.setItem('userEmail', response.data.email || email)
         setLoading(false)
         navigate('/')
       } else {
@@ -175,6 +176,10 @@ const Login = ({ setToken }) => {
                       toast.success(response.data.msg || response.data.message || 'Logged in with Google!');
                       setToken(response.data.token);
                       localStorage.setItem('token', response.data.token);
+                      const googleEmail = response.data.email || (credentialResponse?.credential ? JSON.parse(atob(credentialResponse.credential.split('.')[1])).email : '');
+                      if (googleEmail) {
+                        localStorage.setItem('userEmail', googleEmail);
+                      }
                       navigate('/');
                     } else {
                       toast.error(response.data.msg || response.data.message || 'Google sign-in failed');

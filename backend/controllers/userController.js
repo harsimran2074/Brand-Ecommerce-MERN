@@ -46,7 +46,8 @@ exports.loginUser = async (req, res) => {
         return res.status(200).json({
             success: true,
             msg: "User logged in successfully",
-            token
+            token,
+            email: user.email
         });
 
     } catch (error) {
@@ -87,7 +88,7 @@ exports.registerUser = async (req, res) => {
 
         const user = await newUser.save();
         const token = createToken(user._id);
-        res.json({ success: true, msg: "user registered successfully", token });
+        res.json({ success: true, msg: "user registered successfully", token, email: user.email });
     }
     catch (error) {
         res.json({ success: false, msg: "error " })
@@ -206,6 +207,7 @@ exports.googleLogin = async (req, res) => {
             msg: 'Google sign-in successful',
             message: 'Google sign-in successful',
             token,
+            email: user.email
         });
     } catch (error) {
         const errorMsg = error.response?.data?.message || error.message || 'Google sign-in failed';

@@ -29,6 +29,7 @@ const SignUp = ({ setToken }) => {
       if (response.data.success) {
         setToken(response.data.token)
         localStorage.setItem('token', response.data.token)
+        localStorage.setItem('userEmail', response.data.email || email)
         setLoading(false)
         toast.success(response.data.msg)
         navigate('/')
@@ -177,6 +178,10 @@ const SignUp = ({ setToken }) => {
                       toast.success(response.data.msg || response.data.message || 'Signed up with Google!');
                       setToken(response.data.token);
                       localStorage.setItem('token', response.data.token);
+                      const googleEmail = response.data.email || (credentialResponse?.credential ? JSON.parse(atob(credentialResponse.credential.split('.')[1])).email : '');
+                      if (googleEmail) {
+                        localStorage.setItem('userEmail', googleEmail);
+                      }
                       navigate('/');
                     } else {
                       toast.error(response.data.msg || response.data.message || 'Google sign-up failed');

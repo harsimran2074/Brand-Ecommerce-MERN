@@ -52,6 +52,7 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState(localStorage.getItem("userEmail") || "");
 
   const profileRef = useRef(null);
   const navigate = useNavigate();
@@ -60,7 +61,14 @@ const Navbar = () => {
   // Sync authentication state from localStorage
   const syncAuthState = () => {
     const token = localStorage.getItem("token");
-    setIsLoggedIn(Boolean(token));
+    const hasToken = Boolean(token);
+    setIsLoggedIn(hasToken);
+    if (hasToken) {
+      setUserEmail(localStorage.getItem("userEmail") || "");
+    } else {
+      setUserEmail("");
+      localStorage.removeItem("userEmail");
+    }
   };
 
   useEffect(() => {
@@ -97,6 +105,8 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userEmail");
+    setUserEmail("");
     dispatch(clearCart());
     setIsLoggedIn(false);
     setProfileDropdownOpen(false);
@@ -223,6 +233,11 @@ const Navbar = () => {
                           <p className="mt-0.5 truncate text-xs text-slate-500">
                             Welcome to your dashboard
                           </p>
+                          {userEmail && (
+                            <p className="mt-0.5 truncate text-xs text-slate-600 font-medium">
+                              {userEmail}
+                            </p>
+                          )}
                         </div>
                       </div>
                     ) : (
