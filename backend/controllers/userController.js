@@ -137,8 +137,10 @@ exports.getAdminUsers = async (req, res) => {
 
 //google login and signUp 
 
+const googleClientId = (process.env.GOOGLE_CLIENT_ID || '').trim();
+
 const googleClient = new OAuth2Client(
-    process.env.GOOGLE_CLIENT_ID
+    googleClientId
 );
 
 exports.googleLogin = async (req, res) => {
@@ -153,7 +155,7 @@ exports.googleLogin = async (req, res) => {
 
         const ticket = await googleClient.verifyIdToken({
             idToken: credential,
-            audience: process.env.GOOGLE_CLIENT_ID,
+            audience: googleClientId,
         });
 
         const payload = ticket.getPayload();
