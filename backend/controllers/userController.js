@@ -3,6 +3,8 @@ const orderModel = require('../models/orderModel');
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { OAuth2Client } = require('google-auth-library');
+
 
 //create token
 const createToken = (id) => {
@@ -20,6 +22,13 @@ exports.loginUser = async (req, res) => {
             return res.status(404).json({
                 success: false,
                 msg: "User not found"
+            });
+        }
+
+        if (!user.password) {
+            return res.status(400).json({
+                success: false,
+                msg: "This account was created with Google. Please sign in with Google."
             });
         }
 
@@ -122,5 +131,88 @@ exports.getAdminUsers = async (req, res) => {
     } catch (error) {
         console.error("[UserController - Get Admin Users Error]:", error.message);
         res.status(500).json({ success: false, message: error.message, msg: error.message });
+    }
+};
+
+
+//google login and signUp 
+
+const googleClient = new OAuth2Client(
+    process.env.GOOGLE_CLIENT_ID
+);
+
+exports.googleLogin = async (req, res) => {
+    try {
+        const { credential } = req.body;
+        if (!credential) {
+            return res.status(400).json({
+                success: false,
+                message: 'Google credential is required',
+            });
+        }
+
+        const ticket = await googleClient.verifyIdToken({
+            idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+
+        const payload = ticket.getPayload();
+
+        if (!payload?.sub || !payload.email || !payload.email_verified) {
+            return res.status(401).json({
+                success: false,
+                message: 'Google account could not be verified',
+            });
+        }
+
+        let user = await userModel.findOne({
+            googleId: payload.sub,
+        });
+
+
+
+        if (!user) {
+            const existingUser = await userModel.findOne({
+                email: payload.email,
+            });
+
+            if (existingUser) {
+                return res.status(409).json({
+                    success: false,
+                    message:
+                        'An account with this email already exists. Sign in using your existing method first.',
+                });
+            }
+
+            user = await userModel.create({
+                name: payload.name || payload.email.split('@')[0],
+                email: payload.email,
+                googleId: payload.sub,
+                cartData: {},
+            });
+        }
+
+        const token = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: '7d' }
+        );
+
+
+        return res.json({
+            success: true,
+            msg: 'Google sign-in successful',
+            message: 'Google sign-in successful',
+            token,
+        });
+    } catch (error) {
+        const errorMsg = error.response?.data?.message || error.message || 'Google sign-in failed';
+        console.error('Google login error:', errorMsg);
+
+        return res.status(401).json({
+            success: false,
+            msg: errorMsg,
+            message: errorMsg,
+        });
     }
 };

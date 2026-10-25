@@ -6,7 +6,8 @@ import axios from 'axios'
 import loginImg from '../assets/login.png'
 import { assets } from '../assets/assets'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
-import { FcGoogle } from 'react-icons/fc'
+import { GoogleLogin } from '@react-oauth/google';
+
 
 const Login = ({ setToken }) => {
   const navigate = useNavigate()
@@ -158,14 +159,39 @@ const Login = ({ setToken }) => {
               </div>
 
               {/* Google Button */}
-              <button
-                type="button"
-                onClick={() => toast.info("Google login coming soon")}
-                className="w-full py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 flex items-center justify-center gap-2.5 transition active:scale-[0.99] cursor-pointer"
-              >
-                <FcGoogle className="h-4 w-4" />
-                <span>Sign up with google</span>
-              </button>
+
+
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
+                  try {
+                    setLoading(true);
+                    const response = await axios.post(
+                      `${import.meta.env.VITE_BACKEND_URL}/api/auth/google`,
+                      {
+                        credential: credentialResponse.credential,
+                      }
+                    );
+                    if (response.data.success) {
+                      toast.success(response.data.msg || response.data.message || 'Logged in with Google!');
+                      setToken(response.data.token);
+                      localStorage.setItem('token', response.data.token);
+                      navigate('/');
+                    } else {
+                      toast.error(response.data.msg || response.data.message || 'Google sign-in failed');
+                    }
+                  } catch (error) {
+                    const errMsg = error.response?.data?.msg || error.response?.data?.message || error.message || 'Google sign-in failed';
+                    console.error('Google login failed:', errMsg);
+                    toast.error(errMsg);
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+                onError={() => {
+                  console.error('Google sign-in failed');
+                  toast.error('Google sign-in was cancelled or failed');
+                }}
+              />
 
               {/* Register link */}
               <p className="text-center text-xs text-slate-600 pt-2">
