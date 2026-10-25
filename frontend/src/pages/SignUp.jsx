@@ -163,43 +163,43 @@ const SignUp = ({ setToken }) => {
                 <span>Sign up with google</span>
               </button> */}
 
-
-              <GoogleLogin
-                onSuccess={async (credentialResponse) => {
-                  try {
-                    setLoading(true);
-                    const response = await axios.post(
-                      `${import.meta.env.VITE_BACKEND_URL}/api/auth/google`,
-                      {
-                        credential: credentialResponse.credential,
+              <div className="w-full py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 flex items-center justify-center gap-2.5 transition active:scale-[0.99] cursor-pointer">
+                <GoogleLogin
+                  onSuccess={async (credentialResponse) => {
+                    try {
+                      setLoading(true);
+                      const response = await axios.post(
+                        `${import.meta.env.VITE_BACKEND_URL}/api/auth/google`,
+                        {
+                          credential: credentialResponse.credential,
+                        }
+                      );
+                      if (response.data.success) {
+                        toast.success(response.data.msg || response.data.message || 'Signed up with Google!');
+                        setToken(response.data.token);
+                        localStorage.setItem('token', response.data.token);
+                        const googleEmail = response.data.email || (credentialResponse?.credential ? JSON.parse(atob(credentialResponse.credential.split('.')[1])).email : '');
+                        if (googleEmail) {
+                          localStorage.setItem('userEmail', googleEmail);
+                        }
+                        navigate('/');
+                      } else {
+                        toast.error(response.data.msg || response.data.message || 'Google sign-up failed');
                       }
-                    );
-                    if (response.data.success) {
-                      toast.success(response.data.msg || response.data.message || 'Signed up with Google!');
-                      setToken(response.data.token);
-                      localStorage.setItem('token', response.data.token);
-                      const googleEmail = response.data.email || (credentialResponse?.credential ? JSON.parse(atob(credentialResponse.credential.split('.')[1])).email : '');
-                      if (googleEmail) {
-                        localStorage.setItem('userEmail', googleEmail);
-                      }
-                      navigate('/');
-                    } else {
-                      toast.error(response.data.msg || response.data.message || 'Google sign-up failed');
+                    } catch (error) {
+                      const errMsg = error.response?.data?.msg || error.response?.data?.message || error.message || 'Google sign-up failed';
+                      console.error('Google login failed:', errMsg);
+                      toast.error(errMsg);
+                    } finally {
+                      setLoading(false);
                     }
-                  } catch (error) {
-                    const errMsg = error.response?.data?.msg || error.response?.data?.message || error.message || 'Google sign-up failed';
-                    console.error('Google login failed:', errMsg);
-                    toast.error(errMsg);
-                  } finally {
-                    setLoading(false);
-                  }
-                }}
-                onError={() => {
-                  console.error('Google sign-in failed');
-                  toast.error('Google sign-in was cancelled or failed');
-                }}
-              />
-
+                  }}
+                  onError={() => {
+                    console.error('Google sign-in failed');
+                    toast.error('Google sign-in was cancelled or failed');
+                  }}
+                />
+              </div>
 
               {/* Login link */}
               <p className="text-center text-xs text-slate-600 pt-2">
